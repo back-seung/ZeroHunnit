@@ -54,6 +54,7 @@
   INSERT INTO training VALUES('하체어깨');
 
   **엇 잠깐, 왜 직접 insert 했을까요 ❓**
+  
   ![Sorry](https://user-images.githubusercontent.com/84169773/141306925-bc7511d4-56f6-4c4c-a1df-fcfc6e16c541.jpg)
 
 
