@@ -17,7 +17,7 @@
 
 ## ERD
 
-![image-20211111213833988](C:\Users\seung\AppData\Roaming\Typora\typora-user-images\image-20211111213833988.png)
+![image-20211111213833988](https://user-images.githubusercontent.com/84169773/141306844-8d2dcdbf-7564-49f7-b2c0-531a0d66de16.png)
 
 > ERD 관계도 입니다.
 >
@@ -27,7 +27,7 @@
 
 ## 테이블 명세
 
-![image-20211111214648279](C:\Users\seung\AppData\Roaming\Typora\typora-user-images\image-20211111214648279.png)
+![image-20211111214648279](https://user-images.githubusercontent.com/84169773/141306903-d3d1acf4-9b17-4ad3-a91e-07a803e302fd.png)
 
 
 
@@ -54,7 +54,8 @@
   INSERT INTO training VALUES('하체어깨');
 
   **엇 잠깐, 왜 직접 insert 했을까요 ❓**
-  ![ㅈㅅㅈㅅ](C:\Users\seung\OneDrive\바탕 화면\ㅈㅅㅈㅅ.jpg)
+  ![Sorry](https://user-images.githubusercontent.com/84169773/141306925-bc7511d4-56f6-4c4c-a1df-fcfc6e16c541.jpg)
+
 
   > 사실 따로 구현할 수는 있는데 3개밖에 안되기도 하고,,,,ㅎ 죄송합니다
 
