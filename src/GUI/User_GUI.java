@@ -14,7 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import DTO.Admin_DTO;
+
 public class User_GUI extends JFrame implements ActionListener {
+	// Admin DTO & GUI 불러오기
+	Admin_DTO A_DTO = new Admin_DTO();
+	Admin_GUI A_GUI = null;
 
 	// 생성자
 	public User_GUI() {
@@ -64,14 +69,14 @@ public class User_GUI extends JFrame implements ActionListener {
 	private void init() {
 		this.setLayout(new BorderLayout());
 		this.add("North", menu_P);
-		this.add("South", lb_S);
 		this.add("Center", register_P);
+		this.add("South", lb_S);
 		this.setBounds(100, 100, 400, 500);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
 
-	// 상단
+	// 상단 메뉴
 	private JPanel menu_P = new JPanel();
 	private JButton register_Btn = new JButton("회원가입");
 	private JButton login_Btn = new JButton("로그인");
@@ -171,26 +176,36 @@ public class User_GUI extends JFrame implements ActionListener {
 		register_Btn.addActionListener(this);
 		login_Btn.addActionListener(this);
 		admin_Btn.addActionListener(this);
+		logging_Btn2.addActionListener(this);
 	}
 
 	// 상단 버튼 별 이벤트 리스너
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// 회원가입 버튼
 		if (e.getSource().equals(register_Btn)) {
 			this.remove(login_P);
 			this.remove(admin_P);
 			this.add("Center", register_P);
 			this.setVisible(true);
+			// 로그인 버튼
 		} else if (e.getSource().equals(login_Btn)) {
 			this.remove(register_P);
 			this.remove(admin_P);
 			this.add("Center", login_P);
 			this.setVisible(true);
+			// 관리자 버튼
 		} else if (e.getSource().equals(admin_Btn)) {
 			this.remove(login_P);
 			this.remove(register_P);
 			this.add(admin_P);
 			this.setVisible(true);
+			// 관리자 로그인 버튼
+		} else if (e.getSource().equals(logging_Btn2)) {
+			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
+				System.out.println("관리자 메뉴로 진입합니다.");
+				A_GUI = new Admin_GUI();
+			}
 		}
 	}
 }
