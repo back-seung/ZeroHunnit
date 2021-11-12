@@ -68,7 +68,7 @@ public class Admin_GUI extends JFrame implements ActionListener {
 	private JLabel M_Main_lb = new JLabel("수 정 하 기");
 	private JLabel M_Name_lb = new JLabel("User Name 입력");
 	private JTextField M_Name_tf = new JTextField(8);
-	private JLabel M_Wt_lb = new JLabel("수정할 무게(kg) 입력");
+	private JLabel M_Wt_lb = new JLabel("수정할 몸무게(kg) 입력");
 	private JTextField M_Wt_tf = new JTextField(8);
 	private JButton M_Mod_Btn = new JButton("수정");
 

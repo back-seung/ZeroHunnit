@@ -17,13 +17,13 @@ import javax.swing.WindowConstants;
 
 import DTO.Admin_DTO;
 
-public class User_GUI extends JFrame implements ActionListener {
+public class Manager_GUI extends JFrame implements ActionListener {
 	// Admin DTO & GUI 불러오기
 	Admin_DTO A_DTO = new Admin_DTO();
 	Admin_GUI A_GUI = null;
 
 	// 생성자
-	public User_GUI() {
+	public Manager_GUI() {
 		init();
 		menu();
 		addListener();

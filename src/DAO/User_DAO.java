@@ -100,8 +100,89 @@ public class User_DAO {
 		}
 		return null;
 	}
+<<<<<<< HEAD
 	// 랭킹 usr
 	public ArrayList<Info_DTO> usrRank() { 
+=======
+
+	public ArrayList<User_DTO> usrAll() { // 회원전체보기
+		String sql = "select * from customer";
+		ResultSet rs = null;
+		User_DTO returnDTO = null;
+		ArrayList<User_DTO> ulist = new ArrayList<>();
+		try {
+			getConnection();
+			Statement p = conn.createStatement();
+			rs = p.executeQuery(sql);
+			while (rs.next()) {
+				returnDTO = new User_DTO();
+				returnDTO.setId(rs.getString("id"));
+				returnDTO.setName(rs.getString("name"));
+				returnDTO.setHeight(rs.getInt("height"));
+				returnDTO.setWeight(rs.getInt("weight"));
+				ulist.add(returnDTO);
+			}
+			return ulist;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public void trnAdd(Training_DTO trn) { // 운동등록
+		String sql = "insert into taining values (?)";
+		try {
+			getConnection();
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, trn.getT_name());
+			int k = psmt.executeUpdate();
+			System.out.println(k + "건 등록완료");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<Training_DTO> trnAll() { // 운동전체보기
+		String sql = "select * from taining";
+		ResultSet rs = null;
+		Training_DTO returnDTO = null;
+		ArrayList<Training_DTO> tlist = new ArrayList<>();
+		try {
+			getConnection();
+			Statement p = conn.createStatement();
+			rs = p.executeQuery(sql);
+			while (rs.next()) {
+				returnDTO = new Training_DTO();
+				returnDTO.setT_name(rs.getString("id"));
+				tlist.add(returnDTO);
+			}
+			return tlist;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public ArrayList<Info_DTO> usrRank() { // 랭킹
+>>>>>>> 3030088f7b15ac50fcdce13939c62e662a844aaf
 		String sql = "select * from info order by liftweight desc";
 		ResultSet rs = null;
 		Info_DTO returnDTO = null;
@@ -129,4 +210,8 @@ public class User_DAO {
 		}
 		return null;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3030088f7b15ac50fcdce13939c62e662a844aaf
 }
