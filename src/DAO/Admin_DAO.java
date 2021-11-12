@@ -46,18 +46,16 @@ public class Admin_DAO {
 			e.printStackTrace();
 		}
 	}
-	// 회원등록
-	public void usrAdd(User_DTO usr) {
-		String sql = "insert into customer values (?,?,?,?)";
+	// 회원 수정
+	public void usrEdit(User_DTO usr) {
+		String sql = "update customer set weight=? where name=?";
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getName());
-			psmt.setString(2, usr.getId());
-			psmt.setInt(3, usr.getHeight());
-			psmt.setInt(4, usr.getWeight());
+			psmt.setInt(1, usr.getWeight());
+			psmt.setString(2, usr.getName());
 			int k = psmt.executeUpdate();
-			System.out.println(k + "건 등록완료");
+			System.out.println(k+"건 수정완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -69,22 +67,14 @@ public class Admin_DAO {
 		}
 	}
 	// 회원삭제
-	public User_DTO usrDel(User_DTO usr) {
-		String sql = "select * from customer where name=?";
-		ResultSet rs = null;
-		User_DTO returnDTO = new User_DTO();
+	public void usrDel(User_DTO usr) {
+		String sql = "delete from customer where name=?";
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getId());
-			rs = psmt.executeQuery();
-			if (rs.next()) {
-				returnDTO.setId(rs.getString("id"));
-				returnDTO.setName(rs.getString("name"));
-				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
-			}
-			return returnDTO;
+			psmt.setString(1, usr.getName());
+			int k = psmt.executeUpdate();
+			System.out.println(k+"건 삭제완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -94,8 +84,8 @@ public class Admin_DAO {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
+	
 	// 회원전체보기
 	public ArrayList<User_DTO> usrAll() {
 		String sql = "select * from customer";
@@ -125,26 +115,6 @@ public class Admin_DAO {
 			}
 		}
 		return null;
-	}
-	// 회원 수정
-	public void usrEdit(User_DTO usr) {
-		String sql = "update custmer set weight=? where name=?";
-		try {
-			getConnection();
-			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getName());
-			psmt.setInt(2, usr.getWeight());
-			int k = psmt.executeUpdate();
-			System.out.println(k+"건 수정완료");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 }

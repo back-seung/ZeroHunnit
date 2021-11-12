@@ -9,16 +9,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import DTO.Info_DTO;
-import DTO.Training_DTO;
 import DTO.User_DTO;
 
 public class User_DAO {
 	// 개인기록등록, 누적기록 확인, 랭킹
-	
+
 	private Connection conn = null;
 
 	public static User_DTO user_dao = null;
-	
+
 	public static User_DTO getInstance() {
 		if (user_dao == null) {
 			user_dao = new User_DTO();
@@ -48,19 +47,18 @@ public class User_DAO {
 			e.printStackTrace();
 		}
 	}
-	// 기록입력
-	public Info_DTO usrAdd(User_DTO usr) {
-		String sql = "insert into customer values (?,?,?,?)";
+
+	// 기록등록
+	public void infoAdd(Info_DTO usr) {
+		String sql = "insert into info values (?,?,default,?)";
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getName());
-			psmt.setString(2, usr.getId());
-			psmt.setInt(3, usr.getHeight());
-			psmt.setInt(4, usr.getWeight());
+			psmt.setString(1, usr.getC_name());
+			psmt.setString(2, usr.getT_date());
+			psmt.setInt(3, usr.getLiftWeight());
 			int k = psmt.executeUpdate();
 			System.out.println(k + "건 등록완료");
-			return 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -70,23 +68,23 @@ public class User_DAO {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
-	// 회원검색
-	public User_DTO usrOne(User_DTO usr) {
-		String sql = "select * from customer where name=?";
+
+	// 누적기록 확인
+	public Info_DTO infoOne(User_DTO usr) {
+		String sql = "select * from info where c_name=?";
 		ResultSet rs = null;
-		User_DTO returnDTO = new User_DTO();
+		Info_DTO returnDTO = new Info_DTO();
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getId());
+			psmt.setString(1, usr.getName());
 			rs = psmt.executeQuery();
 			if (rs.next()) {
-				returnDTO.setId(rs.getString("id"));
-				returnDTO.setName(rs.getString("name"));
-				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
+				returnDTO.setC_name(rs.getString("c_name"));
+				returnDTO.setT_name(rs.getString("t_name"));
+				returnDTO.setLiftWeight(rs.getInt("liftWeight"));
+				returnDTO.setT_date(rs.getString("tdate"));
 			}
 			return returnDTO;
 		} catch (SQLException e) {
@@ -100,89 +98,8 @@ public class User_DAO {
 		}
 		return null;
 	}
-<<<<<<< HEAD
-	// 랭킹 usr
-	public ArrayList<Info_DTO> usrRank() { 
-=======
-
-	public ArrayList<User_DTO> usrAll() { // 회원전체보기
-		String sql = "select * from customer";
-		ResultSet rs = null;
-		User_DTO returnDTO = null;
-		ArrayList<User_DTO> ulist = new ArrayList<>();
-		try {
-			getConnection();
-			Statement p = conn.createStatement();
-			rs = p.executeQuery(sql);
-			while (rs.next()) {
-				returnDTO = new User_DTO();
-				returnDTO.setId(rs.getString("id"));
-				returnDTO.setName(rs.getString("name"));
-				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
-				ulist.add(returnDTO);
-			}
-			return ulist;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
-	public void trnAdd(Training_DTO trn) { // 운동등록
-		String sql = "insert into taining values (?)";
-		try {
-			getConnection();
-			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, trn.getT_name());
-			int k = psmt.executeUpdate();
-			System.out.println(k + "건 등록완료");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public ArrayList<Training_DTO> trnAll() { // 운동전체보기
-		String sql = "select * from taining";
-		ResultSet rs = null;
-		Training_DTO returnDTO = null;
-		ArrayList<Training_DTO> tlist = new ArrayList<>();
-		try {
-			getConnection();
-			Statement p = conn.createStatement();
-			rs = p.executeQuery(sql);
-			while (rs.next()) {
-				returnDTO = new Training_DTO();
-				returnDTO.setT_name(rs.getString("id"));
-				tlist.add(returnDTO);
-			}
-			return tlist;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
-	public ArrayList<Info_DTO> usrRank() { // 랭킹
->>>>>>> 3030088f7b15ac50fcdce13939c62e662a844aaf
+	// 랭킹
+	public ArrayList<Info_DTO> rank() { 
 		String sql = "select * from info order by liftweight desc";
 		ResultSet rs = null;
 		Info_DTO returnDTO = null;
@@ -210,8 +127,4 @@ public class User_DAO {
 		}
 		return null;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 3030088f7b15ac50fcdce13939c62e662a844aaf
 }

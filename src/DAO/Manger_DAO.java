@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import DTO.Info_DTO;
-import DTO.Training_DTO;
 import DTO.User_DTO;
 
 public class Manger_DAO {
@@ -54,8 +52,8 @@ public class Manger_DAO {
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getName());
-			psmt.setString(2, usr.getId());
+			psmt.setString(1, usr.getId());
+			psmt.setString(2, usr.getName());
 			psmt.setInt(3, usr.getHeight());
 			psmt.setInt(4, usr.getWeight());
 			int k = psmt.executeUpdate();
