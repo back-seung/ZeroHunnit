@@ -15,9 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import DTO.User_DTO;
+
 public class Users_GUI extends JFrame implements ActionListener {
 	// 생성자
-	public Users_GUI() {
+	private User_DTO myU = new User_DTO();
+
+	public Users_GUI(User_DTO u) {
+		this.myU = u;
 		init();
 		menu_Panel();
 		addListener();

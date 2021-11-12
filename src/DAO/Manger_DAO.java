@@ -12,7 +12,7 @@ import DTO.User_DTO;
 
 public class Manger_DAO {
 	// 회원등록, 로그인
-	
+
 	private Connection conn = null;
 
 	public static User_DTO user_dao = null;
@@ -46,6 +46,7 @@ public class Manger_DAO {
 			e.printStackTrace();
 		}
 	}
+
 	// 회원등록
 	public void usrAdd(User_DTO usr) {
 		String sql = "insert into customer values (?,?,?,?)";
@@ -68,6 +69,7 @@ public class Manger_DAO {
 			}
 		}
 	}
+
 	// 로그인
 	public ArrayList<User_DTO> login() {
 		String sql = "select id, weight from customer";
@@ -84,7 +86,6 @@ public class Manger_DAO {
 				returnDTO.setWeight(rs.getInt("weight"));
 				ulist.add(returnDTO);
 			}
-			return ulist;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -94,6 +95,6 @@ public class Manger_DAO {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return ulist;
 	}
 }

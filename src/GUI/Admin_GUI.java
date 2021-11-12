@@ -8,6 +8,9 @@ import java.awt.List;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,9 +19,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-public class Admin_GUI extends JFrame implements ActionListener {
+import DAO.Admin_DAO;
+import DTO.User_DTO;
+
+public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
+	Admin_DAO A_DAO = new Admin_DAO();
+	ArrayList<User_DTO> uList = null;
+
 	// 생성자
 	public Admin_GUI() {
+		// getInstance
 		init();
 		addListener();
 		menu_Panel();
@@ -26,6 +36,7 @@ public class Admin_GUI extends JFrame implements ActionListener {
 		del_Panel();
 		view_Panel();
 		setFont();
+		loadData();
 	}
 
 	// 폰트 생성
@@ -84,6 +95,9 @@ public class Admin_GUI extends JFrame implements ActionListener {
 		mod_Btn.addActionListener(this);
 		del_Btn.addActionListener(this);
 		view_Btn.addActionListener(this);
+		M_Mod_Btn.addActionListener(this);
+
+		V_UserList.addItemListener(this);
 	}
 
 	// 메뉴 디자인
@@ -105,7 +119,7 @@ public class Admin_GUI extends JFrame implements ActionListener {
 	private JTextField M_Wt_tf = new JTextField(8);
 	private JButton M_Mod_Btn = new JButton("수정");
 
-	// 수정 컨셉 : info의 유저 name을 검색해서 무게 변경
+	// 수정 컨셉 : customer의 유저 name을 검색해서 몸무게 변경
 	private void mod_Panel() {
 		mod_P.setBackground(Color.decode("#4e71ba"));
 		mod_P.setLayout(new GridLayout(6, 1));
@@ -149,11 +163,20 @@ public class Admin_GUI extends JFrame implements ActionListener {
 		view_P.add(V_Detail);
 	}
 
+	// uList 받아오기
+	private void loadData() {
+		V_UserList.removeAll();
+		uList = A_DAO.usrAll();
+		for (int i = 0; i < uList.size(); i++) {
+			V_UserList.add(uList.get(i).getName());
+		}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(mod_Btn)) {
-			this.remove(del_P);
 			this.remove(view_P);
+			this.remove(del_P);
 			this.add(mod_P);
 			this.setVisible(true);
 		} else if (e.getSource().equals(del_Btn)) {
@@ -162,10 +185,32 @@ public class Admin_GUI extends JFrame implements ActionListener {
 			this.add(del_P);
 			this.setVisible(true);
 		} else if (e.getSource().equals(view_Btn)) {
-			this.remove(del_P);
 			this.remove(mod_P);
+			this.remove(del_P);
 			this.add(view_P);
 			this.setVisible(true);
+		} else if (e.getSource().equals(M_Mod_Btn)) {
+			User_DTO modU = new User_DTO();
+			modU.setName(M_Name_tf.getText());
+			modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
+			A_DAO.usrEdit(modU);
 		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource().equals(V_UserList)) {
+			int selIDX = V_UserList.getSelectedIndex();
+			User_DTO u = uList.get(selIDX);
+			detailView(u);
+		}
+	}
+
+	private void detailView(User_DTO u) {
+		V_Detail.setText("");
+		V_Detail.append("ID : " + u.getId() + "\n");
+		V_Detail.append("NAME : " + u.getName() + "님\n");
+		V_Detail.append("HEIGHT : " + Integer.toString(u.getHeight()) + "cm\n");
+		V_Detail.append("WEIGHT : " + Integer.toString(u.getWeight()) + "kg\n");
 	}
 }
