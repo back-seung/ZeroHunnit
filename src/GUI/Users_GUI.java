@@ -1,6 +1,8 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.event.ActionEvent;
@@ -9,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -23,6 +24,32 @@ public class Users_GUI extends JFrame implements ActionListener {
 		record_Panel();
 		insert_Panel();
 		rank_Panel();
+		setFont();
+	}
+
+	// 폰트 생성
+	Font TitleFont = new Font("맑은 고딕", Font.BOLD, 30);
+	Font EngFont = new Font("Consolas", Font.BOLD, 20);
+	Font KorFont = new Font("맑은 고딕", Font.BOLD, 20);
+
+	// 폰트 적용
+	private void setFont() {
+		// 상단 버튼
+		record_Btn.setFont(KorFont);
+		insert_Btn.setFont(KorFont);
+		rank_Btn.setFont(KorFont);
+		// 중앙 컴포넌트
+		// 기록 조회
+		R_Main_lb.setFont(KorFont);
+		// 기록 추가
+		I_Main_lb.setFont(TitleFont);
+		I_Name_lb.setFont(KorFont);
+		I_Wt_lb.setFont(KorFont);
+		I_Submit_Btn.setFont(KorFont);
+		// 랭킹 보기
+		Rnk_Main_lb.setFont(KorFont);
+		// 하단 회사명
+		lb_S.setFont(TitleFont);
 	}
 
 	// 기본 GUI 설정
@@ -54,8 +81,11 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private void menu_Panel() {
 		menu_P.setLayout(new GridLayout(1, 3));
 		menu_P.add(record_Btn);
+		record_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(insert_Btn);
+		insert_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(rank_Btn);
+		rank_Btn.setBackground(Color.decode("#4e71ba"));
 	}
 
 	// 이벤트 리스너
@@ -71,6 +101,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 
 	// 게인 기록 조회 디자인
 	private void record_Panel() {
+		record_P.setBackground(Color.decode("#4e71ba"));
 		record_P.setLayout(new BorderLayout());
 		record_P.add("North", R_Main_lb);
 		record_P.add("Center", myRecord);
@@ -82,15 +113,19 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private JTextField I_Name_tf = new JTextField(8);
 	private JLabel I_Wt_lb = new JLabel("무 게 입 력");
 	private JTextField I_Wt_tf = new JTextField(8);
+	private JButton I_Submit_Btn = new JButton("추가");
 
 	// 기록 화면 디자인
 	private void insert_Panel() {
-		insert_P.setLayout(new GridLayout(5, 1));
+		insert_P.setBackground(Color.decode("#4e71ba"));
+		I_Submit_Btn.setBackground(Color.decode("#4e71ba"));
+		insert_P.setLayout(new GridLayout(6, 1));
 		insert_P.add(I_Main_lb);
 		insert_P.add(I_Name_lb);
 		insert_P.add(I_Name_tf);
 		insert_P.add(I_Wt_lb);
 		insert_P.add(I_Wt_tf);
+		insert_P.add(I_Submit_Btn);
 	}
 
 	// 랭킹보기
@@ -99,6 +134,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 
 	// 랭킹보기 디자인
 	private void rank_Panel() {
+		rank_P.setBackground(Color.decode("#4e71ba"));
 		rank_P.add(Rnk_Main_lb);
 		rank_P.add(Rnk_List);
 	}

@@ -16,11 +16,15 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import DTO.Admin_DTO;
+import DTO.User_DTO;
 
 public class Manager_GUI extends JFrame implements ActionListener {
-	// Admin DTO & GUI 불러오기
+	// Admin_DTO & GUI 불러오기
 	Admin_DTO A_DTO = new Admin_DTO();
 	Admin_GUI A_GUI = null;
+	// User_DTO & GUI 불러오기
+	User_DTO U_DTO = new User_DTO();
+	Users_GUI U_GUI = null;
 
 	// 생성자
 	public Manager_GUI() {
@@ -177,6 +181,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 		register_Btn.addActionListener(this);
 		login_Btn.addActionListener(this);
 		admin_Btn.addActionListener(this);
+		logging_Btn.addActionListener(this);
 		logging_Btn2.addActionListener(this);
 	}
 
@@ -206,6 +211,11 @@ public class Manager_GUI extends JFrame implements ActionListener {
 			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
 				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
 				A_GUI = new Admin_GUI();
+			}
+		} else if (e.getSource().equals(logging_Btn)) {
+			if (L_id_tf.getText().equals(U_DTO.getId()) && L_pw_tf.getText().equals(U_DTO.getWeight())) {
+				JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
+				U_GUI = new Users_GUI();
 			}
 		}
 	}

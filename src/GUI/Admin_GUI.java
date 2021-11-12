@@ -1,6 +1,8 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.TextArea;
@@ -23,6 +25,34 @@ public class Admin_GUI extends JFrame implements ActionListener {
 		mod_Panel();
 		del_Panel();
 		view_Panel();
+		setFont();
+	}
+
+	// 폰트 생성
+	Font TitleFont = new Font("맑은 고딕", Font.BOLD, 30);
+	Font EngFont = new Font("Consolas", Font.BOLD, 20);
+	Font KorFont = new Font("맑은 고딕", Font.BOLD, 20);
+
+	// 폰트 적용
+	private void setFont() {
+		// 상단 버튼
+		mod_Btn.setFont(KorFont);
+		del_Btn.setFont(KorFont);
+		view_Btn.setFont(KorFont);
+		// 중앙 컴포넌트
+		// 수정
+		M_Main_lb.setFont(TitleFont);
+		M_Name_lb.setFont(KorFont);
+		M_Wt_lb.setFont(KorFont);
+		M_Mod_Btn.setFont(TitleFont);
+		// 삭제
+		D_Main_lb.setFont(TitleFont);
+		D_Name_lb.setFont(KorFont);
+		D_Del_Btn.setFont(TitleFont);
+		// 전체보기
+		V_Main_lb.setFont(TitleFont);
+		// 하단 회사명
+		lb_S.setFont(TitleFont);
 	}
 
 	// 기본 GUI 설정
@@ -60,8 +90,11 @@ public class Admin_GUI extends JFrame implements ActionListener {
 	private void menu_Panel() {
 		menu_P.setLayout(new GridLayout(1, 3));
 		menu_P.add(mod_Btn);
+		mod_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(del_Btn);
+		del_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(view_Btn);
+		view_Btn.setBackground(Color.decode("#4e71ba"));
 	}
 
 	// 수정 디자인
@@ -74,6 +107,7 @@ public class Admin_GUI extends JFrame implements ActionListener {
 
 	// 수정 컨셉 : info의 유저 name을 검색해서 무게 변경
 	private void mod_Panel() {
+		mod_P.setBackground(Color.decode("#4e71ba"));
 		mod_P.setLayout(new GridLayout(6, 1));
 		mod_P.add(M_Main_lb);
 		mod_P.add(M_Name_lb);
@@ -81,6 +115,7 @@ public class Admin_GUI extends JFrame implements ActionListener {
 		mod_P.add(M_Wt_lb);
 		mod_P.add(M_Wt_tf);
 		mod_P.add(M_Mod_Btn);
+		M_Mod_Btn.setBackground(Color.decode("#4e71ba"));
 	}
 
 	// 삭제 디자인
@@ -91,11 +126,13 @@ public class Admin_GUI extends JFrame implements ActionListener {
 
 	// 삭제 컨셉 : 유저의 name을 받고 일치하면 user 삭제
 	private void del_Panel() {
+		del_P.setBackground(Color.decode("#4e71ba"));
 		del_P.setLayout(new GridLayout(4, 1));
 		del_P.add(D_Main_lb);
 		del_P.add(D_Name_lb);
 		del_P.add(D_Name_tf);
 		del_P.add(D_Del_Btn);
+		D_Del_Btn.setBackground(Color.decode("#4e71ba"));
 	}
 
 	// 전체보기 디자인
@@ -105,6 +142,7 @@ public class Admin_GUI extends JFrame implements ActionListener {
 
 	// 전체보기 설정
 	private void view_Panel() {
+		view_P.setBackground(Color.decode("#4e71ba"));
 		view_P.setLayout(new GridLayout(3, 1));
 		view_P.add(V_Main_lb);
 		view_P.add(V_UserList);
