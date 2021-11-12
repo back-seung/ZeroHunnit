@@ -15,13 +15,13 @@ public class Admin_DAO {
 	
 	private Connection conn = null;
 
-	public static User_DTO user_dao = null;
+	public static Admin_DAO admin_DAO = null;
 
-	public static User_DTO getInstance() {
-		if (user_dao == null) {
-			user_dao = new User_DTO();
+	public static Admin_DAO getInstance() {
+		if (admin_DAO == null) {
+			admin_DAO = new Admin_DAO();
 		}
-		return user_dao;
+		return admin_DAO;
 	}
 
 	public Admin_DAO() {

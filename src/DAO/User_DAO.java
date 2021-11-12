@@ -16,11 +16,11 @@ public class User_DAO {
 
 	private Connection conn = null;
 
-	public static User_DTO user_dao = null;
+	public static User_DAO user_dao = null;
 
-	public static User_DTO getInstance() {
+	public static User_DAO getInstance() {
 		if (user_dao == null) {
-			user_dao = new User_DTO();
+			user_dao = new User_DAO();
 		}
 		return user_dao;
 	}
@@ -100,7 +100,7 @@ public class User_DAO {
 	}
 	// 랭킹
 	public ArrayList<Info_DTO> rank() { 
-		String sql = "select * from info order by liftweight desc";
+		String sql = "select c_name, sum(liftweight) from info group by c_name order by sum(liftweight) desc";
 		ResultSet rs = null;
 		Info_DTO returnDTO = null;
 		ArrayList<Info_DTO> tlist = new ArrayList<>();
@@ -111,8 +111,7 @@ public class User_DAO {
 			while (rs.next()) {
 				returnDTO = new Info_DTO();
 				returnDTO.setC_name(rs.getString("c_name"));
-				returnDTO.setT_name(rs.getString("t_name"));
-				returnDTO.setLiftWeight(rs.getInt("liftweight"));
+				returnDTO.setLiftWeight(rs.getInt("sum(liftweight)"));
 				tlist.add(returnDTO);
 			}
 			return tlist;
