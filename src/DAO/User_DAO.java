@@ -172,7 +172,7 @@ public class User_DAO {
 		}
 		return null;
 	}
-	
+
 	public ArrayList<Info_DTO> usrRank() { // 랭킹
 		String sql = "select * from info order by liftweight desc";
 		ResultSet rs = null;
@@ -201,6 +201,5 @@ public class User_DAO {
 		}
 		return null;
 	}
-	
-	
+
 }
