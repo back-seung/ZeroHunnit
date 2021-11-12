@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -203,7 +204,7 @@ public class User_GUI extends JFrame implements ActionListener {
 			// 관리자 로그인 버튼
 		} else if (e.getSource().equals(logging_Btn2)) {
 			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
-				System.out.println("관리자 메뉴로 진입합니다.");
+				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
 				A_GUI = new Admin_GUI();
 			}
 		}
