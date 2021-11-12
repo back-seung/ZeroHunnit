@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import DTO.Info_DTO;
 import DTO.Training_DTO;
 import DTO.User_DTO;
 
@@ -69,7 +70,7 @@ public class User_DAO {
 	}
 
 	public User_DTO usrOne(User_DTO usr) { // 회원검색
-		String sql = "select * from customer where id=?";
+		String sql = "select * from customer where name=?";
 		ResultSet rs = null;
 		User_DTO returnDTO = new User_DTO();
 		try {
@@ -97,7 +98,7 @@ public class User_DAO {
 	}
 
 	public ArrayList<User_DTO> usrAll() { // 회원전체보기
-		String sql = "select * from hword";
+		String sql = "select * from customer";
 		ResultSet rs = null;
 		User_DTO returnDTO = null;
 		ArrayList<User_DTO> ulist = new ArrayList<>();
@@ -146,7 +147,7 @@ public class User_DAO {
 	}
 
 	public ArrayList<Training_DTO> trnAll() { // 운동전체보기
-		String sql = "select * from hword";
+		String sql = "select * from taining";
 		ResultSet rs = null;
 		Training_DTO returnDTO = null;
 		ArrayList<Training_DTO> tlist = new ArrayList<>();
@@ -172,24 +173,23 @@ public class User_DAO {
 		return null;
 	}
 	
-	public ArrayList<User_DTO> usrRank() { // 회원전체보기
-		String sql = "select * from hword";
+	public ArrayList<Info_DTO> usrRank() { // 랭킹
+		String sql = "select * from info order by liftweight desc";
 		ResultSet rs = null;
-		User_DTO returnDTO = null;
-		ArrayList<User_DTO> ulist = new ArrayList<>();
+		Info_DTO returnDTO = null;
+		ArrayList<Info_DTO> tlist = new ArrayList<>();
 		try {
 			getConnection();
 			Statement p = conn.createStatement();
 			rs = p.executeQuery(sql);
 			while (rs.next()) {
-				returnDTO = new User_DTO();
-				returnDTO.setId(rs.getString("id"));
-				returnDTO.setName(rs.getString("name"));
-				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
-				ulist.add(returnDTO);
+				returnDTO = new Info_DTO();
+				returnDTO.setC_name(rs.getString("c_name"));
+				returnDTO.setT_name(rs.getString("t_name"));
+				returnDTO.setLiftWeight(rs.getInt("liftweight"));
+				tlist.add(returnDTO);
 			}
-			return ulist;
+			return tlist;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -201,4 +201,6 @@ public class User_DAO {
 		}
 		return null;
 	}
+	
+	
 }
