@@ -12,13 +12,13 @@ import DTO.Info_DTO;
 import DTO.Training_DTO;
 import DTO.User_DTO;
 
-public class User_DAO {
-	// 개인기록등록, 누적기록 확인, 랭킹
+public class Manger_DAO {
+	// 회원등록, 로그인
 	
 	private Connection conn = null;
 
 	public static User_DTO user_dao = null;
-	
+
 	public static User_DTO getInstance() {
 		if (user_dao == null) {
 			user_dao = new User_DTO();
@@ -26,7 +26,7 @@ public class User_DAO {
 		return user_dao;
 	}
 
-	public User_DAO() {
+	public Manger_DAO() {
 		init();
 	}
 
@@ -48,8 +48,8 @@ public class User_DAO {
 			e.printStackTrace();
 		}
 	}
-	// 기록입력
-	public Info_DTO usrAdd(User_DTO usr) {
+	// 회원등록
+	public void usrAdd(User_DTO usr) {
 		String sql = "insert into customer values (?,?,?,?)";
 		try {
 			getConnection();
@@ -60,7 +60,6 @@ public class User_DAO {
 			psmt.setInt(4, usr.getWeight());
 			int k = psmt.executeUpdate();
 			System.out.println(k + "건 등록완료");
-			return 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -70,54 +69,24 @@ public class User_DAO {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
-	// 회원검색
-	public User_DTO usrOne(User_DTO usr) {
-		String sql = "select * from customer where name=?";
+	// 로그인
+	public ArrayList<User_DTO> login() {
+		String sql = "select id, weight from customer";
 		ResultSet rs = null;
-		User_DTO returnDTO = new User_DTO();
-		try {
-			getConnection();
-			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, usr.getId());
-			rs = psmt.executeQuery();
-			if (rs.next()) {
-				returnDTO.setId(rs.getString("id"));
-				returnDTO.setName(rs.getString("name"));
-				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
-			}
-			return returnDTO;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-	// 랭킹 usr
-	public ArrayList<Info_DTO> usrRank() { 
-		String sql = "select * from info order by liftweight desc";
-		ResultSet rs = null;
-		Info_DTO returnDTO = null;
-		ArrayList<Info_DTO> tlist = new ArrayList<>();
+		User_DTO returnDTO = null;
+		ArrayList<User_DTO> ulist = new ArrayList<>();
 		try {
 			getConnection();
 			Statement p = conn.createStatement();
 			rs = p.executeQuery(sql);
 			while (rs.next()) {
-				returnDTO = new Info_DTO();
-				returnDTO.setC_name(rs.getString("c_name"));
-				returnDTO.setT_name(rs.getString("t_name"));
-				returnDTO.setLiftWeight(rs.getInt("liftweight"));
-				tlist.add(returnDTO);
+				returnDTO = new User_DTO();
+				returnDTO.setId(rs.getString("id"));
+				returnDTO.setWeight(rs.getInt("weight"));
+				ulist.add(returnDTO);
 			}
-			return tlist;
+			return ulist;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
