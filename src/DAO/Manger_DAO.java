@@ -15,13 +15,13 @@ public class Manger_DAO {
 	
 	private Connection conn = null;
 
-	public static User_DTO user_dao = null;
+	public static Manger_DAO manger_dao = null;
 
-	public static User_DTO getInstance() {
-		if (user_dao == null) {
-			user_dao = new User_DTO();
+	public static Manger_DAO getInstance() {
+		if (manger_dao == null) {
+			manger_dao = new Manger_DAO();
 		}
-		return user_dao;
+		return manger_dao;
 	}
 
 	public Manger_DAO() {
@@ -70,7 +70,7 @@ public class Manger_DAO {
 	}
 	// 로그인
 	public ArrayList<User_DTO> login() {
-		String sql = "select id, weight from customer";
+		String sql = "select * from customer";
 		ResultSet rs = null;
 		User_DTO returnDTO = null;
 		ArrayList<User_DTO> ulist = new ArrayList<>();
@@ -81,6 +81,7 @@ public class Manger_DAO {
 			while (rs.next()) {
 				returnDTO = new User_DTO();
 				returnDTO.setId(rs.getString("id"));
+				returnDTO.setName(rs.getString("name"));
 				returnDTO.setWeight(rs.getInt("weight"));
 				ulist.add(returnDTO);
 			}
