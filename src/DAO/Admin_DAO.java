@@ -8,17 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import DTO.Info_DTO;
-import DTO.Training_DTO;
 import DTO.User_DTO;
 
-public class User_DAO {
-	// 개인기록등록, 누적기록 확인, 랭킹
+public class Admin_DAO {
+	// 회원수정, 회원삭제, 전체보기
 	
 	private Connection conn = null;
 
 	public static User_DTO user_dao = null;
-	
+
 	public static User_DTO getInstance() {
 		if (user_dao == null) {
 			user_dao = new User_DTO();
@@ -26,7 +24,7 @@ public class User_DAO {
 		return user_dao;
 	}
 
-	public User_DAO() {
+	public Admin_DAO() {
 		init();
 	}
 
@@ -48,8 +46,8 @@ public class User_DAO {
 			e.printStackTrace();
 		}
 	}
-	// 기록입력
-	public Info_DTO usrAdd(User_DTO usr) {
+	// 회원등록
+	public void usrAdd(User_DTO usr) {
 		String sql = "insert into customer values (?,?,?,?)";
 		try {
 			getConnection();
@@ -60,7 +58,6 @@ public class User_DAO {
 			psmt.setInt(4, usr.getWeight());
 			int k = psmt.executeUpdate();
 			System.out.println(k + "건 등록완료");
-			return 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -70,10 +67,9 @@ public class User_DAO {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
-	// 회원검색
-	public User_DTO usrOne(User_DTO usr) {
+	// 회원삭제
+	public User_DTO usrDel(User_DTO usr) {
 		String sql = "select * from customer where name=?";
 		ResultSet rs = null;
 		User_DTO returnDTO = new User_DTO();
@@ -100,12 +96,8 @@ public class User_DAO {
 		}
 		return null;
 	}
-<<<<<<< HEAD
-	// 랭킹 usr
-	public ArrayList<Info_DTO> usrRank() { 
-=======
-
-	public ArrayList<User_DTO> usrAll() { // 회원전체보기
+	// 회원전체보기
+	public ArrayList<User_DTO> usrAll() {
 		String sql = "select * from customer";
 		ResultSet rs = null;
 		User_DTO returnDTO = null;
@@ -134,15 +126,16 @@ public class User_DAO {
 		}
 		return null;
 	}
-
-	public void trnAdd(Training_DTO trn) { // 운동등록
-		String sql = "insert into taining values (?)";
+	// 회원 수정
+	public void usrEdit(User_DTO usr) {
+		String sql = "update custmer set weight=? where name=?";
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setString(1, trn.getT_name());
+			psmt.setString(1, usr.getName());
+			psmt.setInt(2, usr.getWeight());
 			int k = psmt.executeUpdate();
-			System.out.println(k + "건 등록완료");
+			System.out.println(k+"건 수정완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -153,65 +146,5 @@ public class User_DAO {
 			}
 		}
 	}
-
-	public ArrayList<Training_DTO> trnAll() { // 운동전체보기
-		String sql = "select * from taining";
-		ResultSet rs = null;
-		Training_DTO returnDTO = null;
-		ArrayList<Training_DTO> tlist = new ArrayList<>();
-		try {
-			getConnection();
-			Statement p = conn.createStatement();
-			rs = p.executeQuery(sql);
-			while (rs.next()) {
-				returnDTO = new Training_DTO();
-				returnDTO.setT_name(rs.getString("id"));
-				tlist.add(returnDTO);
-			}
-			return tlist;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
-	public ArrayList<Info_DTO> usrRank() { // 랭킹
->>>>>>> 3030088f7b15ac50fcdce13939c62e662a844aaf
-		String sql = "select * from info order by liftweight desc";
-		ResultSet rs = null;
-		Info_DTO returnDTO = null;
-		ArrayList<Info_DTO> tlist = new ArrayList<>();
-		try {
-			getConnection();
-			Statement p = conn.createStatement();
-			rs = p.executeQuery(sql);
-			while (rs.next()) {
-				returnDTO = new Info_DTO();
-				returnDTO.setC_name(rs.getString("c_name"));
-				returnDTO.setT_name(rs.getString("t_name"));
-				returnDTO.setLiftWeight(rs.getInt("liftweight"));
-				tlist.add(returnDTO);
-			}
-			return tlist;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 3030088f7b15ac50fcdce13939c62e662a844aaf
+	
 }
