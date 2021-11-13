@@ -12,7 +12,7 @@ import DTO.User_DTO;
 
 public class Admin_DAO {
 	// 회원수정, 회원삭제, 전체보기
-	
+
 	private Connection conn = null;
 
 	public static Admin_DAO admin_DAO = null;
@@ -46,6 +46,7 @@ public class Admin_DAO {
 			e.printStackTrace();
 		}
 	}
+
 	// 회원 수정
 	public void usrEdit(User_DTO usr) {
 		String sql = "update customer set weight=? where name=?";
@@ -55,7 +56,7 @@ public class Admin_DAO {
 			psmt.setInt(1, usr.getWeight());
 			psmt.setString(2, usr.getName());
 			int k = psmt.executeUpdate();
-			System.out.println(k+"건 수정완료");
+			System.out.println(k + "건 수정완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -66,6 +67,7 @@ public class Admin_DAO {
 			}
 		}
 	}
+
 	// 회원삭제
 	public void usrDel(User_DTO usr) {
 		String sql = "delete from customer where name=?";
@@ -74,7 +76,7 @@ public class Admin_DAO {
 			PreparedStatement psmt = conn.prepareStatement(sql);
 			psmt.setString(1, usr.getName());
 			int k = psmt.executeUpdate();
-			System.out.println(k+"건 삭제완료");
+			System.out.println(k + "건 삭제완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -85,7 +87,7 @@ public class Admin_DAO {
 			}
 		}
 	}
-	
+
 	// 회원전체보기
 	public ArrayList<User_DTO> usrAll() {
 		String sql = "select * from customer";
@@ -116,5 +118,5 @@ public class Admin_DAO {
 		}
 		return null;
 	}
-	
+
 }

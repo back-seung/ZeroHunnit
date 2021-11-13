@@ -96,7 +96,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		del_Btn.addActionListener(this);
 		view_Btn.addActionListener(this);
 		M_Mod_Btn.addActionListener(this);
-
+		D_Del_Btn.addActionListener(this);
 		V_UserList.addItemListener(this);
 	}
 
@@ -194,6 +194,10 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 			modU.setName(M_Name_tf.getText());
 			modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
 			A_DAO.usrEdit(modU);
+		} else if (e.getSource().equals(D_Del_Btn)) {
+			User_DTO delU = new User_DTO();
+			delU.setName(D_Name_tf.getText());
+			A_DAO.usrDel(delU);
 		}
 	}
 
