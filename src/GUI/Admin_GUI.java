@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -82,6 +83,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 	private JButton mod_Btn = new JButton("수정");
 	private JButton del_Btn = new JButton("삭제");
 	private JButton view_Btn = new JButton("전체보기");
+	private JButton logout_Btn = new JButton("로그아웃");
 	// 중앙
 	private JPanel mod_P = new JPanel();
 	private JPanel del_P = new JPanel();
@@ -98,17 +100,20 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		M_Mod_Btn.addActionListener(this);
 		D_Del_Btn.addActionListener(this);
 		V_UserList.addItemListener(this);
+		logout_Btn.addActionListener(this);
 	}
 
 	// 메뉴 디자인
 	private void menu_Panel() {
-		menu_P.setLayout(new GridLayout(1, 3));
+		menu_P.setLayout(new GridLayout(1, 4));
 		menu_P.add(mod_Btn);
 		mod_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(del_Btn);
 		del_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(view_Btn);
 		view_Btn.setBackground(Color.decode("#4e71ba"));
+		menu_P.add(logout_Btn);
+		logout_Btn.setBackground(Color.decode("#4e71ba"));
 	}
 
 	// 수정 디자인
@@ -178,26 +183,38 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 			this.remove(view_P);
 			this.remove(del_P);
 			this.add(mod_P);
+			this.setVisible(false);
 			this.setVisible(true);
 		} else if (e.getSource().equals(del_Btn)) {
 			this.remove(mod_P);
 			this.remove(view_P);
 			this.add(del_P);
+			this.setVisible(false);
 			this.setVisible(true);
 		} else if (e.getSource().equals(view_Btn)) {
 			this.remove(mod_P);
 			this.remove(del_P);
 			this.add(view_P);
+			this.setVisible(false);
 			this.setVisible(true);
 		} else if (e.getSource().equals(M_Mod_Btn)) {
 			User_DTO modU = new User_DTO();
 			modU.setName(M_Name_tf.getText());
 			modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
 			A_DAO.usrEdit(modU);
+			loadData();
 		} else if (e.getSource().equals(D_Del_Btn)) {
 			User_DTO delU = new User_DTO();
 			delU.setName(D_Name_tf.getText());
 			A_DAO.usrDel(delU);
+			loadData();
+		} else if (e.getSource().equals(logout_Btn)) {
+			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+			if (result == 0) {
+				new Manager_GUI();
+				this.setVisible(false);
+			}
 		}
 	}
 

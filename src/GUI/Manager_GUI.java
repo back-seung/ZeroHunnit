@@ -195,24 +195,28 @@ public class Manager_GUI extends JFrame implements ActionListener {
 			this.remove(admin_P);
 			this.remove(login_P);
 			this.add(register_P);
+			this.setVisible(false);
 			this.setVisible(true);
 			// 로그인 버튼
 		} else if (e.getSource().equals(login_Btn)) {
 			this.remove(register_P);
 			this.remove(admin_P);
 			this.add(login_P);
+			this.setVisible(false);
 			this.setVisible(true);
 			// 관리자 버튼
 		} else if (e.getSource().equals(admin_Btn)) {
 			this.remove(login_P);
 			this.remove(register_P);
 			this.add(admin_P);
+			this.setVisible(false);
 			this.setVisible(true);
 			// 관리자 로그인 버튼
 		} else if (e.getSource().equals(logging_Btn2)) {
 			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
 				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
-				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				this.setVisible(false);
+				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				new Admin_GUI();
 			}
 		} else if (e.getSource().equals(logging_Btn)) { // 예외(NullPointerException 잡기
@@ -221,6 +225,8 @@ public class Manager_GUI extends JFrame implements ActionListener {
 				if (L_id_tf.getText().equals(uList.get(i).getId())
 						&& Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
 					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
+					this.setVisible(false);
+					this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					U_DTO.setName(uList.get(i).getName());
 					new Users_GUI(U_DTO);
 				} else {

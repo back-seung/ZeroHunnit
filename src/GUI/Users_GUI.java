@@ -43,7 +43,7 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 		loadRecord();
 		loadRank();
 	}
-	
+
 	// 기록 로드
 	private void loadRecord() {
 		myRecord.removeAll();
@@ -115,7 +115,7 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 	private JPanel rank_P = new JPanel();
 
 	// 하단
-	private JLabel lb_S = new JLabel("Zero Hunnit");
+	private JLabel lb_S = new JLabel("Zero Hunnit" + myU.getId() + "님 안녕하세요!");
 
 	// 메뉴 버튼 설정
 	private void menu_Panel() {
@@ -206,8 +206,9 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 			this.add("Center", rank_P);
 			this.setVisible(false);
 			this.setVisible(true);
-		}else if (e.getSource().equals(logout_Btn)) {
-			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		} else if (e.getSource().equals(logout_Btn)) {
+			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 			if (result == 0) {
 				new Manager_GUI();
 				this.setVisible(false);
@@ -215,7 +216,7 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 		} else if (e.getSource().equals(I_Submit_Btn)) {
 			if (I_Name_tf.getText().equals("") || I_Wt_tf.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "모든 항목을 기입해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
-			}else {
+			} else {
 				Info_DTO U_Rec = new Info_DTO();
 				U_Rec.setC_name(this.myU.getName());
 				U_Rec.setT_name(I_Name_tf.getText());
@@ -233,6 +234,6 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
