@@ -15,13 +15,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import DAO.Manger_DAO;
+import DAO.Manager_DAO;
 import DTO.Admin_DTO;
 import DTO.User_DTO;
 
 public class Manager_GUI extends JFrame implements ActionListener {
 	// Manager DAO 불러오기
-	Manger_DAO M_DAO = new Manger_DAO();
+	Manager_DAO M_DAO = new Manager_DAO();
 	// Admin_DTO & GUI 불러오기
 	Admin_DTO A_DTO = new Admin_DTO();
 	// User_DTO & GUI 불러오기
