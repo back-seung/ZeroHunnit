@@ -29,6 +29,14 @@ public class Info_DTO {
 	public void setLiftWeight(int liftWeight) {
 		this.liftWeight = liftWeight;
 	}
+	public String prtRecord() {
+		String all = this.t_date + " -> 운동부위 : " + this.t_name + " 무게 : " + this.liftWeight + "kg";
+		return all;
+	}
+	public String prtRank(int i) {
+		String rank = (i+1) + "등 : " + this.c_name + " / " + this.liftWeight + "점";
+		return rank;
+	}
 	/**
 		CREATE TABLE info(
 		c_name varchar2(10),

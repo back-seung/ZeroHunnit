@@ -56,7 +56,7 @@ public class User_DAO {
 			PreparedStatement psmt = conn.prepareStatement(sql);
 			psmt.setString(1, usr.getC_name());
 			psmt.setString(2, usr.getT_date());
-			psmt.setInt(3, usr.getLiftWeight());
+			psmt.setInt(4, usr.getLiftWeight());
 			int k = psmt.executeUpdate();
 			System.out.println(k + "건 등록완료");
 		} catch (SQLException e) {
@@ -71,22 +71,25 @@ public class User_DAO {
 	}
 
 	// 누적기록 확인
-	public Info_DTO infoOne(User_DTO usr) {
+	public ArrayList<Info_DTO> infoOne(User_DTO usr) {
 		String sql = "select * from info where c_name=?";
 		ResultSet rs = null;
-		Info_DTO returnDTO = new Info_DTO();
+		Info_DTO returnDTO = null;
+		ArrayList<Info_DTO> tlist = new ArrayList<>();
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
 			psmt.setString(1, usr.getName());
 			rs = psmt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
+				returnDTO = new Info_DTO();
 				returnDTO.setC_name(rs.getString("c_name"));
 				returnDTO.setT_name(rs.getString("t_name"));
 				returnDTO.setLiftWeight(rs.getInt("liftWeight"));
 				returnDTO.setT_date(rs.getString("tdate"));
+				tlist.add(returnDTO);
 			}
-			return returnDTO;
+			return tlist;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -98,6 +101,7 @@ public class User_DAO {
 		}
 		return null;
 	}
+	
 	// 랭킹
 	public ArrayList<Info_DTO> rank() { 
 		String sql = "select c_name, sum(liftweight) from info group by c_name order by sum(liftweight) desc";

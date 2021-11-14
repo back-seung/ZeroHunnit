@@ -7,22 +7,32 @@ import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import DAO.User_DAO;
+import DTO.Info_DTO;
 import DTO.User_DTO;
 
-public class Users_GUI extends JFrame implements ActionListener {
+public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 	// 생성자
 	private User_DTO myU = new User_DTO();
+	private User_DAO U_DAO = null;
+	private ArrayList<Info_DTO> ulist = new ArrayList<Info_DTO>();
+	private ArrayList<Info_DTO> rlist = new ArrayList<Info_DTO>();
 
 	public Users_GUI(User_DTO u) {
 		this.myU = u;
+		U_DAO = User_DAO.getInstance();
 		init();
 		menu_Panel();
 		addListener();
@@ -30,6 +40,29 @@ public class Users_GUI extends JFrame implements ActionListener {
 		insert_Panel();
 		rank_Panel();
 		setFont();
+		loadRecord();
+		loadRank();
+	}
+	
+	// 기록 로드
+	private void loadRecord() {
+		myRecord.removeAll();
+		ulist = U_DAO.infoOne(myU);
+		System.out.println(ulist.size());
+		System.out.println(ulist.size());
+		for (int i = 0; i < ulist.size(); i++) {
+			myRecord.add(ulist.get(i).prtRecord());
+		}
+	}
+
+	// 랭킹 로드
+	private void loadRank() {
+		Rnk_List.removeAll();
+		rlist = U_DAO.rank();
+		System.out.println(rlist.size());
+		for (int i = 0; i < rlist.size(); i++) {
+			Rnk_List.add(rlist.get(i).prtRank(i));
+		}
 	}
 
 	// 폰트 생성
@@ -43,6 +76,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 		record_Btn.setFont(KorFont);
 		insert_Btn.setFont(KorFont);
 		rank_Btn.setFont(KorFont);
+		logout_Btn.setFont(KorFont);
 		// 중앙 컴포넌트
 		// 기록 조회
 		R_Main_lb.setFont(KorFont);
@@ -63,7 +97,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 		this.add("North", menu_P);
 		this.add("Center", record_P);
 		this.add("South", lb_S);
-		this.setBounds(100, 100, 400, 500);
+		this.setBounds(100, 100, 500, 700);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
@@ -73,6 +107,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private JButton record_Btn = new JButton("누적기록");
 	private JButton insert_Btn = new JButton("기록추가");
 	private JButton rank_Btn = new JButton("랭킹보기");
+	private JButton logout_Btn = new JButton("로그아웃");
 
 	// 중앙
 	private JPanel record_P = new JPanel();
@@ -84,13 +119,15 @@ public class Users_GUI extends JFrame implements ActionListener {
 
 	// 메뉴 버튼 설정
 	private void menu_Panel() {
-		menu_P.setLayout(new GridLayout(1, 3));
+		menu_P.setLayout(new GridLayout(1, 4));
 		menu_P.add(record_Btn);
 		record_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(insert_Btn);
 		insert_Btn.setBackground(Color.decode("#4e71ba"));
 		menu_P.add(rank_Btn);
 		rank_Btn.setBackground(Color.decode("#4e71ba"));
+		menu_P.add(logout_Btn);
+		logout_Btn.setBackground(Color.decode("#4e71ba"));
 	}
 
 	// 이벤트 리스너
@@ -98,13 +135,15 @@ public class Users_GUI extends JFrame implements ActionListener {
 		record_Btn.addActionListener(this);
 		insert_Btn.addActionListener(this);
 		rank_Btn.addActionListener(this);
+		I_Submit_Btn.addActionListener(this);
+		logout_Btn.addActionListener(this);
 	}
 
 	// 개인 기록 조회
-	JLabel R_Main_lb = new JLabel("개 인 기 록 조 회");
-	List myRecord = new List(15);
+	private JLabel R_Main_lb = new JLabel("개 인 기 록 조 회");
+	private List myRecord = new List(15);
 
-	// 게인 기록 조회 디자인
+	// 개인 기록 조회 디자인
 	private void record_Panel() {
 		record_P.setBackground(Color.decode("#4e71ba"));
 		record_P.setLayout(new BorderLayout());
@@ -140,8 +179,9 @@ public class Users_GUI extends JFrame implements ActionListener {
 	// 랭킹보기 디자인
 	private void rank_Panel() {
 		rank_P.setBackground(Color.decode("#4e71ba"));
-		rank_P.add(Rnk_Main_lb);
-		rank_P.add(Rnk_List);
+		rank_P.setLayout(new BorderLayout());
+		rank_P.add("North", Rnk_Main_lb);
+		rank_P.add("Center", Rnk_List);
 	}
 
 	@Override
@@ -150,17 +190,49 @@ public class Users_GUI extends JFrame implements ActionListener {
 			this.remove(insert_P);
 			this.remove(rank_P);
 			this.add("Center", record_P);
+			this.setVisible(false);
 			this.setVisible(true);
 		} else if (e.getSource().equals(insert_Btn)) {
 			this.remove(record_P);
 			this.remove(rank_P);
 			this.add("Center", insert_P);
+			this.setVisible(false);
 			this.setVisible(true);
+			I_Name_tf.setText("");
+			I_Wt_tf.setText("");
 		} else if (e.getSource().equals(rank_Btn)) {
 			this.remove(insert_P);
 			this.remove(record_P);
 			this.add("Center", rank_P);
+			this.setVisible(false);
 			this.setVisible(true);
+		}else if (e.getSource().equals(logout_Btn)) {
+			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			if (result == 0) {
+				new Manager_GUI();
+				this.setVisible(false);
+			}
+		} else if (e.getSource().equals(I_Submit_Btn)) {
+			if (I_Name_tf.getText().equals("") || I_Wt_tf.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "모든 항목을 기입해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
+			}else {
+				Info_DTO U_Rec = new Info_DTO();
+				U_Rec.setC_name(this.myU.getName());
+				U_Rec.setT_name(I_Name_tf.getText());
+				U_Rec.setLiftWeight(Integer.parseInt(I_Wt_tf.getText()));
+				U_DAO.infoAdd(U_Rec);
+				JOptionPane.showMessageDialog(null, "기록 완료");
+				I_Name_tf.setText("");
+				I_Wt_tf.setText("");
+				loadRecord();
+				loadRank();
+			}
 		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
