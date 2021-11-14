@@ -217,17 +217,16 @@ public class Manager_GUI extends JFrame implements ActionListener {
 				Admin_GUI A_GUI = new Admin_GUI();
 			}
 		} else if (e.getSource().equals(logging_Btn)) { // 예외(NullPointerException 잡기
-//			ArrayList<User_DTO> uList = M_DAO.login();
-//			for (int i = 0; i < uList.size(); i++) {
-//				if (L_id_tf.getText().equals(uList.get(i).getId())
-//						&& Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
-//					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
-//					U_DTO.setName(uList.get(i).getName());
-//					new Users_GUI(U_DTO);
-//				} else {
-//					System.out.println(Integer.parseInt(L_pw_tf.getText()));
-//				}
-//			}
+			ArrayList<User_DTO> uList = M_DAO.login();
+			for (int i = 0; i < uList.size(); i++) {
+				if (L_id_tf.getText().equals(uList.get(i).getId()) && Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
+					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
+					U_DTO.setName(uList.get(i).getName());
+					new Users_GUI(U_DTO);
+				} else {
+					System.out.println(Integer.parseInt(L_pw_tf.getText()));
+				}
+			}
 		} else if (e.getSource().equals(submit_Btn)) {
 			User_DTO newU = new User_DTO();
 			newU.setId(R_id_tf.getText());

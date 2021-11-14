@@ -60,7 +60,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 	// 기본 GUI 설정
 	private void init() {
 		this.setLayout(new BorderLayout());
-		this.add("Notrh", menu_P);
+		this.add("North", menu_P);
 		this.add("Center", record_P);
 		this.add("South", lb_S);
 		this.setBounds(100, 100, 400, 500);
