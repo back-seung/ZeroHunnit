@@ -84,9 +84,11 @@ public class Manger_DAO {
 				returnDTO = new User_DTO();
 				returnDTO.setId(rs.getString("id"));
 				returnDTO.setName(rs.getString("name"));
+				returnDTO.setHeight(rs.getInt("height"));
 				returnDTO.setWeight(rs.getInt("weight"));
 				ulist.add(returnDTO);
 			}
+			return ulist;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -96,6 +98,6 @@ public class Manger_DAO {
 				e.printStackTrace();
 			}
 		}
-		return ulist;
+		return null;
 	}
 }
