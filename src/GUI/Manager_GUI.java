@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import DAO.Manger_DAO;
 import DTO.Admin_DTO;
@@ -80,7 +79,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 		this.add("South", lb_S);
 		this.setBounds(100, 100, 400, 500);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	// 상단 메뉴
@@ -194,14 +193,14 @@ public class Manager_GUI extends JFrame implements ActionListener {
 		// 회원가입 버튼
 		if (e.getSource().equals(register_Btn)) {
 			this.remove(admin_P);
-			this.remove(admin_P);
 			this.remove(login_P);
-			this.add("Center", register_P);
+			this.add(register_P);
 			this.setVisible(true);
 			// 로그인 버튼
 		} else if (e.getSource().equals(login_Btn)) {
 			this.remove(register_P);
-			this.add("Center", login_P);
+			this.remove(admin_P);
+			this.add(login_P);
 			this.setVisible(true);
 			// 관리자 버튼
 		} else if (e.getSource().equals(admin_Btn)) {
@@ -214,12 +213,13 @@ public class Manager_GUI extends JFrame implements ActionListener {
 			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
 				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
 				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				Admin_GUI A_GUI = new Admin_GUI();
+				new Admin_GUI();
 			}
 		} else if (e.getSource().equals(logging_Btn)) { // 예외(NullPointerException 잡기
 			ArrayList<User_DTO> uList = M_DAO.login();
 			for (int i = 0; i < uList.size(); i++) {
-				if (L_id_tf.getText().equals(uList.get(i).getId()) && Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
+				if (L_id_tf.getText().equals(uList.get(i).getId())
+						&& Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
 					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
 					U_DTO.setName(uList.get(i).getName());
 					new Users_GUI(U_DTO);

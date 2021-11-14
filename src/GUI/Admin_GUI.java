@@ -74,7 +74,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		this.add("South", lb_S);
 		this.setBounds(100, 100, 400, 500);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	// 상단
