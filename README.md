@@ -12,14 +12,14 @@
 
 🛠 사용 Tool
 
-* <img src="https://user-images.githubusercontent.com/84169773/141745383-ad606d4e-2be7-4bd2-86f9-6fdca421aeb8.png" alt="java_original_wordmark_logo_icon_146459 (1)" style="zoom:5%;" /> JavaSE-1.8
-* <img src="https://user-images.githubusercontent.com/84169773/141745463-8e49ec8e-00b8-4aad-9396-e04fa38c33de.png" alt="eclipse_94656" style="zoom:5%;" /> Eclipse jee 2021-06
-* <img src="https://user-images.githubusercontent.com/84169773/141745563-0179d7fa-eb96-4c31-b18d-47e01ec77c0b.png" alt="git_original_wordmark_logo_icon_146510" style="zoom:5%;" /> Git
-* <img src="https://user-images.githubusercontent.com/84169773/141745629-f3e450bc-7848-4f8c-99d1-974642934efd.png" alt="oracle_original_logo_icon_146401" style="zoom:6%;" /> Oracle 11.2.0.1.0
+*  JavaSE-1.8
+*  Eclipse jee 2021-06
+*  Git
+*  Oracle 11.2.0.1.0
 
 💻 DevOps
 
-* <img src="https://user-images.githubusercontent.com/84169773/141745681-c7f7b186-85a5-47ec-b235-749a701af24d.png" alt="github_original_wordmark_logo_icon_146506" style="zoom:5%;" /> GitHub
+*  GitHub
 
 
 
