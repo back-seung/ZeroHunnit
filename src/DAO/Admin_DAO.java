@@ -24,7 +24,7 @@ public class Admin_DAO {
 		return admin_DAO;
 	}
 
-	public Admin_DAO() {
+	private Admin_DAO() {
 		init();
 	}
 

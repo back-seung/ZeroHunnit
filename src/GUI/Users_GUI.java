@@ -101,7 +101,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 		this.add("South", lb_S);
 		this.setBounds(100, 100, 500, 700);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	// 상단 메뉴

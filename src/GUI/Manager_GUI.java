@@ -20,8 +20,8 @@ import DTO.Admin_DTO;
 import DTO.User_DTO;
 
 public class Manager_GUI extends JFrame implements ActionListener {
-	// Manager DAO 불러오기
-	Manager_DAO M_DAO = new Manager_DAO();
+	// Manager DAO 선언
+	Manager_DAO M_DAO = null;
 	// Admin_DTO & GUI 불러오기
 	Admin_DTO A_DTO = new Admin_DTO();
 	// User_DTO & GUI 불러오기
@@ -29,6 +29,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 
 	// 생성자
 	public Manager_GUI() {
+		M_DAO = Manager_DAO.getInstance();
 		init();
 		menu();
 		Register_Panel();
@@ -77,7 +78,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 		this.add("North", menu_P);
 		this.add("Center", register_P);
 		this.add("South", lb_S);
-		this.setBounds(100, 100, 400, 500);
+		this.setBounds(100, 100, 500, 700);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -217,32 +218,40 @@ public class Manager_GUI extends JFrame implements ActionListener {
 			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
 				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
 				this.setVisible(false);
-				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				new Admin_GUI();
+			}else {
+				JOptionPane.showMessageDialog(null, "다시 입력하십시오", "경고", JOptionPane.WARNING_MESSAGE);
 			}
 			// 유저 로그인 버튼
 		} else if (e.getSource().equals(logging_Btn)) { // 예외(NullPointerException 잡기
 			ArrayList<User_DTO> uList = M_DAO.login();
+			boolean chk = true;
 			for (int i = 0; i < uList.size(); i++) {
 				if (L_id_tf.getText().equals(uList.get(i).getId())
 						&& Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
+					chk = false;
 					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
 					this.setVisible(false);
-					this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					U_DTO.setName(uList.get(i).getName());
 					new Users_GUI(U_DTO);
-				} else {
-					System.out.println(Integer.parseInt(L_pw_tf.getText()));
-				}
+				} 
+			}
+			if (chk) {
+				JOptionPane.showMessageDialog(null, "다시 입력하십시오", "경고", JOptionPane.WARNING_MESSAGE);
 			}
 			// 회원가입 submit 버튼
 		} else if (e.getSource().equals(submit_Btn)) {
-			User_DTO newU = new User_DTO();
-			newU.setId(R_id_tf.getText());
-			newU.setName(R_name_tf.getText());
-			newU.setHeight(Integer.parseInt(R_ht_tf.getText()));
-			newU.setWeight(Integer.parseInt(R_wt_tf.getText()));
-			M_DAO.usrAdd(newU);
+			if (R_id_tf.getText().equals("") || R_name_tf.getText().equals("") || R_ht_tf.getText().equals("") || R_wt_tf.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "모든 항목을 기입해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
+			}else {
+				User_DTO newU = new User_DTO();
+				newU.setId(R_id_tf.getText());
+				newU.setName(R_name_tf.getText());
+				newU.setHeight(Integer.parseInt(R_ht_tf.getText()));
+				newU.setWeight(Integer.parseInt(R_wt_tf.getText()));
+				M_DAO.usrAdd(newU);
+				JOptionPane.showMessageDialog(null, (newU.getName() + "님! 가입을 축하드립니다!"));
+			}
 		}
 	}
 }

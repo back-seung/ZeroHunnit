@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import DTO.Info_DTO;
+import DTO.Training_DTO;
 import DTO.User_DTO;
 
 public class User_DAO {
@@ -25,7 +26,7 @@ public class User_DAO {
 		return user_dao;
 	}
 
-	public User_DAO() {
+	private User_DAO() {
 		init();
 	}
 
