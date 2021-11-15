@@ -1,10 +1,10 @@
 package DTO;
 
 public class Info_DTO {
-	private String c_name = null;
-	private String t_name = null;
-	private String t_date = null;
-	private int liftWeight = 0;
+	private String c_name = null; // 유저 이름
+	private String t_name = null; // 운동부위 이름
+	private String t_date = null; // 날짜
+	private int liftWeight = 0; // 든 무게
 	public String getC_name() {
 		return c_name;
 	}

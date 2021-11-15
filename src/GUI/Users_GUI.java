@@ -7,8 +7,6 @@ import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -23,13 +21,17 @@ import DAO.User_DAO;
 import DTO.Info_DTO;
 import DTO.User_DTO;
 
-public class Users_GUI extends JFrame implements ActionListener, ItemListener {
-	// 생성자
+public class Users_GUI extends JFrame implements ActionListener {
+	// 로그인 한 User_DTO 불러오기
 	private User_DTO myU = new User_DTO();
+	// User_DAO 불러오기
 	private User_DAO U_DAO = null;
+	// 개인 기록 조회 ArrayList
 	private ArrayList<Info_DTO> ulist = new ArrayList<Info_DTO>();
+	// 사용자 간 랭킹 조회 ArrayList
 	private ArrayList<Info_DTO> rlist = new ArrayList<Info_DTO>();
 
+	// 생성자
 	public Users_GUI(User_DTO u) {
 		this.myU = u;
 		U_DAO = User_DAO.getInstance();
@@ -44,7 +46,7 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 		loadRank();
 	}
 
-	// 기록 로드
+	// 개인 기록 로드
 	private void loadRecord() {
 		myRecord.removeAll();
 		ulist = U_DAO.infoOne(myU);
@@ -55,7 +57,7 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 		}
 	}
 
-	// 랭킹 로드
+	// 사용자 간 랭킹 로드
 	private void loadRank() {
 		Rnk_List.removeAll();
 		rlist = U_DAO.rank();
@@ -186,12 +188,14 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// 기록 조회 버튼 (메뉴)
 		if (e.getSource().equals(record_Btn)) {
 			this.remove(insert_P);
 			this.remove(rank_P);
 			this.add("Center", record_P);
 			this.setVisible(false);
 			this.setVisible(true);
+			// 기록 추가 버튼 (메뉴)
 		} else if (e.getSource().equals(insert_Btn)) {
 			this.remove(record_P);
 			this.remove(rank_P);
@@ -200,12 +204,14 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 			this.setVisible(true);
 			I_Name_tf.setText("");
 			I_Wt_tf.setText("");
+			// 랭킹보기 버튼 (메뉴)
 		} else if (e.getSource().equals(rank_Btn)) {
 			this.remove(insert_P);
 			this.remove(record_P);
 			this.add("Center", rank_P);
 			this.setVisible(false);
 			this.setVisible(true);
+			// 로그아웃 버튼
 		} else if (e.getSource().equals(logout_Btn)) {
 			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
@@ -213,6 +219,7 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 				new Manager_GUI();
 				this.setVisible(false);
 			}
+			// 기록추가 버튼
 		} else if (e.getSource().equals(I_Submit_Btn)) {
 			if (I_Name_tf.getText().equals("") || I_Wt_tf.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "모든 항목을 기입해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
@@ -229,11 +236,5 @@ public class Users_GUI extends JFrame implements ActionListener, ItemListener {
 				loadRank();
 			}
 		}
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 }
