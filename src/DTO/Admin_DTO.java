@@ -1,8 +1,8 @@
 package DTO;
 
 public class Admin_DTO {
-	private String adm_id = "admin";
-	private String adm_pw = "1111";
+	private String adm_id = "admin"; // 관리자 id
+	private String adm_pw = "1111"; // 관리자 pw
 	
 	public String getAdm_id() {
 		return adm_id;

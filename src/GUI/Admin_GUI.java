@@ -24,7 +24,9 @@ import DAO.Admin_DAO;
 import DTO.User_DTO;
 
 public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
+	// Admin_DAO 불러오기
 	Admin_DAO A_DAO = new Admin_DAO();
+	// User_DTO 리스트 불러오기
 	ArrayList<User_DTO> uList = null;
 
 	// 생성자
@@ -168,7 +170,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		view_P.add(V_Detail);
 	}
 
-	// uList 받아오기
+	// 최신화된 uList 받아오기
 	private void loadData() {
 		V_UserList.removeAll();
 		uList = A_DAO.usrAll();
@@ -179,35 +181,41 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// 수정 버튼 (메뉴)
 		if (e.getSource().equals(mod_Btn)) {
 			this.remove(view_P);
 			this.remove(del_P);
 			this.add(mod_P);
 			this.setVisible(false);
 			this.setVisible(true);
+			// 삭제 버튼 (메뉴)
 		} else if (e.getSource().equals(del_Btn)) {
 			this.remove(mod_P);
 			this.remove(view_P);
 			this.add(del_P);
 			this.setVisible(false);
 			this.setVisible(true);
+			// 전체보기 버튼 (메뉴)
 		} else if (e.getSource().equals(view_Btn)) {
 			this.remove(mod_P);
 			this.remove(del_P);
 			this.add(view_P);
 			this.setVisible(false);
 			this.setVisible(true);
+			// 수정 기능
 		} else if (e.getSource().equals(M_Mod_Btn)) {
 			User_DTO modU = new User_DTO();
 			modU.setName(M_Name_tf.getText());
 			modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
 			A_DAO.usrEdit(modU);
 			loadData();
+			// 삭제 기능
 		} else if (e.getSource().equals(D_Del_Btn)) {
 			User_DTO delU = new User_DTO();
 			delU.setName(D_Name_tf.getText());
 			A_DAO.usrDel(delU);
 			loadData();
+			// 로그아웃 기능
 		} else if (e.getSource().equals(logout_Btn)) {
 			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
@@ -218,6 +226,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		}
 	}
 
+	// List itemListener
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource().equals(V_UserList)) {
@@ -227,6 +236,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		}
 	}
 
+	// TextArea 전체보기 내용
 	private void detailView(User_DTO u) {
 		V_Detail.setText("");
 		V_Detail.append("ID : " + u.getId() + "\n");

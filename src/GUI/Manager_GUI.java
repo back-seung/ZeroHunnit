@@ -178,6 +178,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 
 	}
 
+	// 각 component Action Listener
 	private void addListener() {
 		register_Btn.addActionListener(this);
 		login_Btn.addActionListener(this);
@@ -190,21 +191,21 @@ public class Manager_GUI extends JFrame implements ActionListener {
 	// 상단 버튼 별 이벤트 리스너
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// 회원가입 버튼
+		// 회원가입 버튼 (메뉴)
 		if (e.getSource().equals(register_Btn)) {
 			this.remove(admin_P);
 			this.remove(login_P);
 			this.add(register_P);
 			this.setVisible(false);
 			this.setVisible(true);
-			// 로그인 버튼
+			// 로그인 버튼 (메뉴)
 		} else if (e.getSource().equals(login_Btn)) {
 			this.remove(register_P);
 			this.remove(admin_P);
 			this.add(login_P);
 			this.setVisible(false);
 			this.setVisible(true);
-			// 관리자 버튼
+			// 관리자 버튼 (메뉴)
 		} else if (e.getSource().equals(admin_Btn)) {
 			this.remove(login_P);
 			this.remove(register_P);
@@ -219,6 +220,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				new Admin_GUI();
 			}
+			// 유저 로그인 버튼
 		} else if (e.getSource().equals(logging_Btn)) { // 예외(NullPointerException 잡기
 			ArrayList<User_DTO> uList = M_DAO.login();
 			for (int i = 0; i < uList.size(); i++) {
@@ -233,6 +235,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 					System.out.println(Integer.parseInt(L_pw_tf.getText()));
 				}
 			}
+			// 회원가입 submit 버튼
 		} else if (e.getSource().equals(submit_Btn)) {
 			User_DTO newU = new User_DTO();
 			newU.setId(R_id_tf.getText());
