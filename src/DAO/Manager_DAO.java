@@ -10,21 +10,21 @@ import java.util.ArrayList;
 
 import DTO.User_DTO;
 
-public class Manger_DAO {
+public class Manager_DAO {
 	// 회원등록, 로그인
 
 	private Connection conn = null;
 
-	public static Manger_DAO manger_dao = null;
+	public static Manager_DAO manger_dao = null;
 
-	public static Manger_DAO getInstance() {
+	public static Manager_DAO getInstance() {
 		if (manger_dao == null) {
-			manger_dao = new Manger_DAO();
+			manger_dao = new Manager_DAO();
 		}
 		return manger_dao;
 	}
 
-	public Manger_DAO() {
+	public Manager_DAO() {
 		init();
 	}
 
