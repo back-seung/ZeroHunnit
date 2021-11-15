@@ -219,7 +219,7 @@ public class Manager_GUI extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
 				this.setVisible(false);
 				new Admin_GUI();
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(null, "다시 입력하십시오", "경고", JOptionPane.WARNING_MESSAGE);
 			}
 			// 유저 로그인 버튼
@@ -232,18 +232,20 @@ public class Manager_GUI extends JFrame implements ActionListener {
 					chk = false;
 					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
 					this.setVisible(false);
-					U_DTO.setName(uList.get(i).getName());
+					U_DTO.setId(uList.get(i).getId());
+					
 					new Users_GUI(U_DTO);
-				} 
+				}
 			}
 			if (chk) {
 				JOptionPane.showMessageDialog(null, "다시 입력하십시오", "경고", JOptionPane.WARNING_MESSAGE);
 			}
 			// 회원가입 submit 버튼
 		} else if (e.getSource().equals(submit_Btn)) {
-			if (R_id_tf.getText().equals("") || R_name_tf.getText().equals("") || R_ht_tf.getText().equals("") || R_wt_tf.getText().equals("")) {
+			if (R_id_tf.getText().equals("") || R_name_tf.getText().equals("") || R_ht_tf.getText().equals("")
+					|| R_wt_tf.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "모든 항목을 기입해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
-			}else {
+			} else {
 				User_DTO newU = new User_DTO();
 				newU.setId(R_id_tf.getText());
 				newU.setName(R_name_tf.getText());

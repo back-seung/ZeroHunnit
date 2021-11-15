@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 import DAO.User_DAO;
 import DTO.Info_DTO;
@@ -36,12 +35,12 @@ public class Users_GUI extends JFrame implements ActionListener {
 		this.myU = u;
 		U_DAO = User_DAO.getInstance();
 		init();
+		setFont();
 		menu_Panel();
 		addListener();
 		record_Panel();
 		insert_Panel();
 		rank_Panel();
-		setFont();
 		loadRecord();
 		loadRank();
 	}
@@ -81,14 +80,14 @@ public class Users_GUI extends JFrame implements ActionListener {
 		logout_Btn.setFont(KorFont);
 		// 중앙 컴포넌트
 		// 기록 조회
-		R_Main_lb.setFont(KorFont);
+		R_Main_lb.setFont(TitleFont);
 		// 기록 추가
 		I_Main_lb.setFont(TitleFont);
 		I_Name_lb.setFont(KorFont);
 		I_Wt_lb.setFont(KorFont);
 		I_Submit_Btn.setFont(KorFont);
 		// 랭킹 보기
-		Rnk_Main_lb.setFont(KorFont);
+		Rnk_Main_lb.setFont(TitleFont);
 		// 하단 회사명
 		lb_S.setFont(TitleFont);
 	}
@@ -117,7 +116,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private JPanel rank_P = new JPanel();
 
 	// 하단
-	private JLabel lb_S = new JLabel("Zero Hunnit" + myU.getId() + "님 안녕하세요!");
+	private JLabel lb_S = new JLabel("Zero Hunnit " + myU.getId() + "님 안녕하세요!");
 
 	// 메뉴 버튼 설정
 	private void menu_Panel() {
