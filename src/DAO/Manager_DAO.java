@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import DTO.Training_DTO;
 import DTO.User_DTO;
 
 public class Manager_DAO {
@@ -24,7 +25,7 @@ public class Manager_DAO {
 		return manger_dao;
 	}
 
-	public Manager_DAO() {
+	private Manager_DAO() {
 		init();
 	}
 

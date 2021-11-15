@@ -24,14 +24,14 @@ import DAO.Admin_DAO;
 import DTO.User_DTO;
 
 public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
-	// Admin_DAO 불러오기
-	Admin_DAO A_DAO = new Admin_DAO();
+	// Admin_DAO 선언
+	Admin_DAO A_DAO = null;
 	// User_DTO 리스트 불러오기
 	ArrayList<User_DTO> uList = null;
 
 	// 생성자
 	public Admin_GUI() {
-		// getInstance
+		A_DAO = Admin_DAO.getInstance();
 		init();
 		addListener();
 		menu_Panel();
@@ -75,7 +75,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		this.add("North", menu_P);
 		this.add("Center", mod_P);
 		this.add("South", lb_S);
-		this.setBounds(100, 100, 400, 500);
+		this.setBounds(100, 100, 500, 700);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -204,17 +204,29 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 			this.setVisible(true);
 			// 수정 기능
 		} else if (e.getSource().equals(M_Mod_Btn)) {
-			User_DTO modU = new User_DTO();
-			modU.setName(M_Name_tf.getText());
-			modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
-			A_DAO.usrEdit(modU);
-			loadData();
+			if (M_Name_tf.getText().equals("") || M_Wt_tf.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "모든 항목을 기입해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
+			}else {
+				User_DTO modU = new User_DTO();
+				modU.setName(M_Name_tf.getText());
+				modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
+				A_DAO.usrEdit(modU);
+				JOptionPane.showMessageDialog(null, "수정 완료");
+				loadData();
+				M_Wt_tf.setText("");
+				M_Name_tf.setText("");
+			}
 			// 삭제 기능
 		} else if (e.getSource().equals(D_Del_Btn)) {
-			User_DTO delU = new User_DTO();
-			delU.setName(D_Name_tf.getText());
-			A_DAO.usrDel(delU);
-			loadData();
+			if (D_Name_tf.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "삭제할 회원을 입력해 주십시오", "경고", JOptionPane.WARNING_MESSAGE);
+			}else {
+				User_DTO delU = new User_DTO();
+				delU.setName(D_Name_tf.getText());
+				A_DAO.usrDel(delU);
+				JOptionPane.showMessageDialog(null, "삭제 완료");
+				loadData();
+			}
 			// 로그아웃 기능
 		} else if (e.getSource().equals(logout_Btn)) {
 			int result = JOptionPane.showConfirmDialog(null, "정말 로그아웃 하시겠습니까?", "경고", JOptionPane.YES_NO_OPTION,
