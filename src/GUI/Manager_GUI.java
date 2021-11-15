@@ -217,7 +217,6 @@ public class Manager_GUI extends JFrame implements ActionListener {
 			if (A_id_tf.getText().equals(A_DTO.getAdm_id()) && A_pw_tf.getText().equals(A_DTO.getAdm_pw())) {
 				JOptionPane.showMessageDialog(null, "관리자 모드로 진입합니다.");
 				this.setVisible(false);
-				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				new Admin_GUI();
 			}
 			// 유저 로그인 버튼
@@ -228,7 +227,6 @@ public class Manager_GUI extends JFrame implements ActionListener {
 						&& Integer.parseInt(L_pw_tf.getText()) == uList.get(i).getWeight()) {
 					JOptionPane.showMessageDialog(null, "유저 모드로 진입합니다.");
 					this.setVisible(false);
-					this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					U_DTO.setName(uList.get(i).getName());
 					new Users_GUI(U_DTO);
 				} else {
