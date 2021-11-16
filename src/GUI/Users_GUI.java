@@ -68,7 +68,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 			Rnk_List.add(rlist.get(i).prtRank(i));
 		}
 	}
-	
+
 	// 체급별 랭킹 로드
 	private void loadRank2(String wgt) {
 		Rnk_List.removeAll();
@@ -114,6 +114,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 		this.setLayout(new BorderLayout());
 		this.add("North", menu_P);
 		this.add("Center", record_P);
+		lb_S = new JLabel("Zero Hunnit " + myU.getName() + "님 안녕하세요!");
 		this.add("South", lb_S);
 		this.setBounds(100, 100, 500, 700);
 		this.setVisible(true);
@@ -133,7 +134,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private JPanel rank_P = new JPanel();
 
 	// 하단
-	private JLabel lb_S = new JLabel("Zero Hunnit" + myU.getId() + "님 안녕하세요!");
+	private JLabel lb_S = null;
 
 	// 메뉴 버튼 설정
 	private void menu_Panel() {
@@ -158,6 +159,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 		Rnk_Btn1.addActionListener(this);
 		Rnk_Btn2.addActionListener(this);
 		Rnk_Btn3.addActionListener(this);
+		Rnk_Btn4.addActionListener(this);
 	}
 
 	// 개인 기록 조회
@@ -201,6 +203,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private JButton Rnk_Btn2 = new JButton("라이트급");
 	private JButton Rnk_Btn3 = new JButton("미들급");
 	private JButton Rnk_Btn4 = new JButton("헤비급");
+
 	// 랭킹보기 디자인
 	private void rank_Panel() {
 		rank_P.setBackground(Color.decode("#4e71ba"));
@@ -270,13 +273,13 @@ public class Users_GUI extends JFrame implements ActionListener {
 			}
 		} else if (e.getSource().equals(Rnk_Btn1)) {
 			loadRank1();
-		}else if (e.getSource().equals(Rnk_Btn2)) {
+		} else if (e.getSource().equals(Rnk_Btn2)) {
 			String wgt = "라이트";
 			loadRank2(wgt);
-		}else if (e.getSource().equals(Rnk_Btn3)) {
+		} else if (e.getSource().equals(Rnk_Btn3)) {
 			String wgt = "미들";
 			loadRank2(wgt);
-		}else if (e.getSource().equals(Rnk_Btn4)) {
+		} else if (e.getSource().equals(Rnk_Btn4)) {
 			String wgt = "헤비";
 			loadRank2(wgt);
 		}
