@@ -57,7 +57,7 @@ public class Manager_DAO {
 			psmt.setString(1, usr.getId());
 			psmt.setString(2, usr.getName());
 			psmt.setInt(3, usr.getHeight());
-			psmt.setInt(4, usr.getWeight());
+			psmt.setString(4, usr.getWeight());
 			int k = psmt.executeUpdate();
 			System.out.println(k + "건 등록완료");
 		} catch (SQLException e) {
@@ -86,7 +86,7 @@ public class Manager_DAO {
 				returnDTO.setId(rs.getString("id"));
 				returnDTO.setName(rs.getString("name"));
 				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
+				returnDTO.setWeight(rs.getString("weight"));
 				ulist.add(returnDTO);
 			}
 			return ulist;

@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import DAO.User_DAO;
 import DTO.Info_DTO;
@@ -35,19 +36,20 @@ public class Users_GUI extends JFrame implements ActionListener {
 		this.myU = u;
 		U_DAO = User_DAO.getInstance();
 		init();
-		setFont();
 		menu_Panel();
 		addListener();
 		record_Panel();
 		insert_Panel();
 		rank_Panel();
+		setFont();
 		loadRecord();
-		loadRank();
+		loadRank1();
 	}
 
 	// 개인 기록 로드
 	private void loadRecord() {
 		myRecord.removeAll();
+		rlist.clear();
 		ulist = U_DAO.infoOne(myU);
 		System.out.println(ulist.size());
 		System.out.println(ulist.size());
@@ -56,10 +58,21 @@ public class Users_GUI extends JFrame implements ActionListener {
 		}
 	}
 
-	// 사용자 간 랭킹 로드
-	private void loadRank() {
+	// 전체 랭킹 로드
+	private void loadRank1() {
 		Rnk_List.removeAll();
+		rlist.clear();
 		rlist = U_DAO.rank();
+		System.out.println(rlist.size());
+		for (int i = 0; i < rlist.size(); i++) {
+			Rnk_List.add(rlist.get(i).prtRank(i));
+		}
+	}
+	
+	// 체급별 랭킹 로드
+	private void loadRank2(String wgt) {
+		Rnk_List.removeAll();
+		rlist = U_DAO.wRank(wgt);
 		System.out.println(rlist.size());
 		for (int i = 0; i < rlist.size(); i++) {
 			Rnk_List.add(rlist.get(i).prtRank(i));
@@ -80,14 +93,18 @@ public class Users_GUI extends JFrame implements ActionListener {
 		logout_Btn.setFont(KorFont);
 		// 중앙 컴포넌트
 		// 기록 조회
-		R_Main_lb.setFont(TitleFont);
+		R_Main_lb.setFont(KorFont);
 		// 기록 추가
 		I_Main_lb.setFont(TitleFont);
 		I_Name_lb.setFont(KorFont);
 		I_Wt_lb.setFont(KorFont);
 		I_Submit_Btn.setFont(KorFont);
 		// 랭킹 보기
-		Rnk_Main_lb.setFont(TitleFont);
+		Rnk_Main_lb.setFont(KorFont);
+		Rnk_Btn1.setFont(KorFont);
+		Rnk_Btn2.setFont(KorFont);
+		Rnk_Btn3.setFont(KorFont);
+		Rnk_Btn4.setFont(KorFont);
 		// 하단 회사명
 		lb_S.setFont(TitleFont);
 	}
@@ -116,7 +133,7 @@ public class Users_GUI extends JFrame implements ActionListener {
 	private JPanel rank_P = new JPanel();
 
 	// 하단
-	private JLabel lb_S = new JLabel("Zero Hunnit " + myU.getId() + "님 안녕하세요!");
+	private JLabel lb_S = new JLabel("Zero Hunnit" + myU.getId() + "님 안녕하세요!");
 
 	// 메뉴 버튼 설정
 	private void menu_Panel() {
@@ -138,6 +155,9 @@ public class Users_GUI extends JFrame implements ActionListener {
 		rank_Btn.addActionListener(this);
 		I_Submit_Btn.addActionListener(this);
 		logout_Btn.addActionListener(this);
+		Rnk_Btn1.addActionListener(this);
+		Rnk_Btn2.addActionListener(this);
+		Rnk_Btn3.addActionListener(this);
 	}
 
 	// 개인 기록 조회
@@ -176,13 +196,27 @@ public class Users_GUI extends JFrame implements ActionListener {
 	// 랭킹보기
 	private JLabel Rnk_Main_lb = new JLabel("랭 킹 보 기");
 	private List Rnk_List = new List();
-
+	private JPanel Rnk_Menu_P = new JPanel();
+	private JButton Rnk_Btn1 = new JButton("전체");
+	private JButton Rnk_Btn2 = new JButton("라이트급");
+	private JButton Rnk_Btn3 = new JButton("미들급");
+	private JButton Rnk_Btn4 = new JButton("헤비급");
 	// 랭킹보기 디자인
 	private void rank_Panel() {
 		rank_P.setBackground(Color.decode("#4e71ba"));
 		rank_P.setLayout(new BorderLayout());
 		rank_P.add("North", Rnk_Main_lb);
 		rank_P.add("Center", Rnk_List);
+		rank_P.add("South", Rnk_Menu_P);
+		Rnk_Menu_P.setLayout(new GridLayout(1, 4));
+		Rnk_Menu_P.add(Rnk_Btn1);
+		Rnk_Btn1.setBackground(Color.decode("#4e71ba"));
+		Rnk_Menu_P.add(Rnk_Btn2);
+		Rnk_Btn2.setBackground(Color.decode("#4e71ba"));
+		Rnk_Menu_P.add(Rnk_Btn3);
+		Rnk_Btn3.setBackground(Color.decode("#4e71ba"));
+		Rnk_Menu_P.add(Rnk_Btn4);
+		Rnk_Btn4.setBackground(Color.decode("#4e71ba"));
 	}
 
 	@Override
@@ -232,8 +266,19 @@ public class Users_GUI extends JFrame implements ActionListener {
 				I_Name_tf.setText("");
 				I_Wt_tf.setText("");
 				loadRecord();
-				loadRank();
+				loadRank1();
 			}
+		} else if (e.getSource().equals(Rnk_Btn1)) {
+			loadRank1();
+		}else if (e.getSource().equals(Rnk_Btn2)) {
+			String wgt = "라이트";
+			loadRank2(wgt);
+		}else if (e.getSource().equals(Rnk_Btn3)) {
+			String wgt = "미들";
+			loadRank2(wgt);
+		}else if (e.getSource().equals(Rnk_Btn4)) {
+			String wgt = "헤비";
+			loadRank2(wgt);
 		}
 	}
 }

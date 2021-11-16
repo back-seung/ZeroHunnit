@@ -53,7 +53,7 @@ public class Admin_DAO {
 		try {
 			getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, usr.getWeight());
+			psmt.setString(1, usr.getWeight());
 			psmt.setString(2, usr.getName());
 			int k = psmt.executeUpdate();
 			System.out.println(k + "건 수정완료");
@@ -103,7 +103,7 @@ public class Admin_DAO {
 				returnDTO.setId(rs.getString("id"));
 				returnDTO.setName(rs.getString("name"));
 				returnDTO.setHeight(rs.getInt("height"));
-				returnDTO.setWeight(rs.getInt("weight"));
+				returnDTO.setWeight(rs.getString("weight"));
 				ulist.add(returnDTO);
 			}
 			return ulist;

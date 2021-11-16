@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import DAO.Admin_DAO;
 import DTO.User_DTO;
@@ -208,7 +209,7 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 			}else {
 				User_DTO modU = new User_DTO();
 				modU.setName(M_Name_tf.getText());
-				modU.setWeight(Integer.parseInt(M_Wt_tf.getText()));
+				modU.setWeight(M_Wt_tf.getText());
 				A_DAO.usrEdit(modU);
 				JOptionPane.showMessageDialog(null, "수정 완료");
 				loadData();
@@ -253,6 +254,6 @@ public class Admin_GUI extends JFrame implements ActionListener, ItemListener {
 		V_Detail.append("ID : " + u.getId() + "\n");
 		V_Detail.append("NAME : " + u.getName() + "님\n");
 		V_Detail.append("HEIGHT : " + Integer.toString(u.getHeight()) + "cm\n");
-		V_Detail.append("WEIGHT : " + Integer.toString(u.getWeight()) + "kg\n");
+		V_Detail.append("WEIGHT : " + u.getWeight() + "급\n");
 	}
 }
