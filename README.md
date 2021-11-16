@@ -215,13 +215,19 @@ https://github.com/seunghan-baek/ZeroHunnit/projects/2
 
 3. rank() ↔ rank_Panel() + loadRank()
 
-   * SELECT c_name, SUM(liftweight) FROM info GROUP BY c_name ORDER BY SUM(liftweight) DESC
+   1. 전체 랭킹보기
 
-   * 랭킹보기 기능
+      * SELECT c_name, SUM(liftweight) FROM info GROUP BY c_name ORDER BY SUM(liftweight) DESC
+      * 랭킹보기 기능
+      * 각 유저의 총 liftweight 합을 기준으로 등수를 정함.
 
-   * 각 유저의 총 liftweight 합을 기준으로 등수를 정함.
+   2. 체급별 랭킹보기
 
-     
+      * SELECT c_name, sum(liftweight) FROM (SELECT customer.name AS c_name, info.liftweight AS liftweight FROM info JOIN customer ON c_name = name AND customer.weight = ?) GROUP BY c_name ORDER BY sum(liftweight) DESC;
+      * 체급별 랭킹보기
+      * 각 User는 회원가입시 자신의 체급을 적게 되어있음. 프로그램의 분류된 체급에 따라 체급별 liftweight 합을 기준으로 등수를 정함.
+
+      
 
 4. GUI's logout
 
@@ -569,6 +575,55 @@ https://github.com/seunghan-baek/ZeroHunnit/projects/2
 
 
 
+```java
+	// 체급별 랭킹
+		public ArrayList<Info_DTO> wRank(String wgt) {
+			String sql = "select c_name, sum(liftweight) from (select customer.name as c_name, info.liftweight as liftweight from info join customer on c_name=name and customer.weight=?) group by c_name order by sum(liftweight) desc";
+			ResultSet rs = null;
+			Info_DTO returnDTO = null;
+			ArrayList<Info_DTO> tlist = new ArrayList<>();
+			try {
+				getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(1, wgt);
+				rs = psmt.executeQuery();
+				while (rs.next()) {
+					returnDTO = new Info_DTO();
+					returnDTO.setC_name(rs.getString("c_name"));
+					returnDTO.setLiftWeight(rs.getInt("sum(liftweight)"));
+					tlist.add(returnDTO);
+				}
+				return tlist;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+```
+
+**wRank(String wgt)**
+
+과정
+
+1. 누적기록 확인 기능을 수행할 ```wRank(String wgt)```로 User_GUI 클래스에서 사용자가 필요한 정보를 리턴값을 통해 전달해주는 메서드입니다.
+2. 해당 쿼리를 수행하게 될 sql문을 미리 작성해 두었습니다.  ```select c_name, sum(liftweight) from (select customer.name as c_name, info.liftweight as liftweight from info join customer on c_name=name and customer.weight=?) group by c_name order by sum(liftweight) desc```
+3. 리턴값을 위해 쿼리의 결과를 ResultSet타입으로 반환해주는 ```ResultSet 타입의 rs```, ResultSet타입으로 반환된 값을 저장하기 위한 ```Info_DTO 타입의 returnDTO```, 마지막으로 리턴값인 ```Info_DTO 타입의 ArrayList tlist```를 선언합니다.
+4. 예외를 처리하기 위한 try carch문 으로 들어서고, 쿼리를 데이터 베이스에 전달하기 위해 DB와 연결하는 getConnection() 메서드가 실행됩니다.
+5. DB에 연결이 된다면 ```Statement 타입의 p```가 ```Connection 타입의 conn```의 ```createStatement(sql)``` 메서드를 수행하기 위해 생성되는데 이는 SQL문 ```select c_name, sum(liftweight) from (select customer.name as c_name, info.liftweight as liftweight from info join customer on c_name=name and customer.weight=?) group by c_name order by sum(liftweight) desc``` 을 인자로 받아 해당 SQL구문을 실행시키기 위함입니다.
+6. 미완성된 쿼리문을 바인딩하기 위해 변수 ```String wgt```을 통해 받아온 해당 체급명으로 쿼리문을 완성시킵니다.
+7. ?에는 weight값이 입력되었고, 이는 Users_GUI 클래스의 ```@Override actionPerformed(ActionEvent e)```에서 받아온 값입니다.
+8. Info_DTO 객채를 생성하고 쿼리결과가 다중 튜플이기 때문에 순회를 위해 while문을 통해서 rs의 내용을 메서드를 호출한 위치로 전달하기 위한 User_DTO 객채인 returnDTO에 저장합니다.
+9. 결과가 모두 저장되면 while문이 종료되고, return ulist 로 결과값이 넘어 갈 수 있도록 합니다.
+10. 예외가 없으면 ```finally```문으로 진입해 모든 기능을 수행한 ```Connection conn```은 네트워크 및 메모리같은 불필요한 자원을 낭비하지 않기 위해 ```close()``` 메서드를 통해 Connection을 닫아주고 메서드 종료 후 User_GUI 클래스로 복귀합니다.
+
+
+
 ## GUI 각 actionListener / actionPerformed 메서드
 
 #### Manager_GUI
@@ -789,7 +844,7 @@ https://github.com/seunghan-baek/ZeroHunnit/projects/2
 **actionPerfomed()**
 
 ```
-@Override
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// 기록 조회 버튼 (메뉴)
 		if (e.getSource().equals(record_Btn)) {
@@ -836,10 +891,22 @@ https://github.com/seunghan-baek/ZeroHunnit/projects/2
 				I_Name_tf.setText("");
 				I_Wt_tf.setText("");
 				loadRecord();
-				loadRank();
+				loadRank1();
 			}
+		} else if (e.getSource().equals(Rnk_Btn1)) {
+			loadRank1();
+		} else if (e.getSource().equals(Rnk_Btn2)) {
+			String wgt = "라이트";
+			loadRank2(wgt);
+		} else if (e.getSource().equals(Rnk_Btn3)) {
+			String wgt = "미들";
+			loadRank2(wgt);
+		} else if (e.getSource().equals(Rnk_Btn4)) {
+			String wgt = "헤비";
+			loadRank2(wgt);
 		}
 	}
+}
 ```
 
 > * 각 메뉴(누적기록조회, 기록추가, 랭킹보기, 로그아웃)를 누를 때 Panel이 바뀌는 기능
@@ -879,23 +946,27 @@ https://github.com/seunghan-baek/ZeroHunnit/projects/2
 
 #### User_GUI
 
-<img src="https://user-images.githubusercontent.com/84169773/141747366-93a3b92d-62f8-4a58-8893-cd4bbd2e51c5.png" alt="image-20211115163403470" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747370-591f7287-0f1e-41db-9b1f-10b736cbc8cc.png" alt="image-20211115163339104" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747372-2b78a057-9f89-4f87-aa53-c4e538e31111.png" alt="image-20211115163351357" style="zoom:33%;" />
+<img src="https://user-images.githubusercontent.com/84169773/141747366-93a3b92d-62f8-4a58-8893-cd4bbd2e51c5.png" alt="image-20211115163403470" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141933824-aad22860-decd-4155-b250-3e020bb72178.png" alt="image" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747372-2b78a057-9f89-4f87-aa53-c4e538e31111.png" alt="image-20211115163351357" style="zoom:33%;" />
 
 > 개인기록 조회, 기록추가, 랭킹보기 기능
 
 #### 각 Panel 예시
 
-<img src="https://user-images.githubusercontent.com/84169773/141747510-e990dc02-fba9-4c01-9f00-2bad644703c5.png" alt="image-20211115163430918" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747511-bac9dea1-b493-498b-8fc1-646a6cf2d614.png" alt="image-20211115163446012" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747512-c2f9c07b-0a53-4cb4-9812-e4271c7131d9.png" alt="image-20211115163458072" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747514-a3bdc449-201a-48eb-87f8-e4e4522ffabf.png" alt="image-20211115163520571" style="zoom:33%;" />
+<img src="https://user-images.githubusercontent.com/84169773/141747510-e990dc02-fba9-4c01-9f00-2bad644703c5.png" alt="image-20211115163430918" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747511-bac9dea1-b493-498b-8fc1-646a6cf2d614.png" alt="image-20211115163446012" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141933824-aad22860-decd-4155-b250-3e020bb72178.png" alt="image" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141747514-a3bdc449-201a-48eb-87f8-e4e4522ffabf.png" alt="image-20211115163520571" style="zoom:33%;" />
 
 > 기록 또는 로그아웃 버튼의 처리가 성공적으로 이루어질 때 ```JOptionPane().showMessageDialog() || JOptionPane().WARNING_MESSAGE ```를 통해 처리됨을 알림. (로그아웃의 경우예/아니오 선택을 통해 취소가 가능함.) 
 
+#### 개별 랭킹 Panel
 
+<img src="https://user-images.githubusercontent.com/84169773/141933975-b12a770c-d170-47c8-8e3b-6e5205a8c566.png" alt="image" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141934066-1e16525b-b0f9-4b17-8066-ab275dfedf75.png" alt="image" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141934121-a447b08a-b85b-4872-8f61-bd0480e78c60.png" alt="image" style="zoom:33%;" /><img src="https://user-images.githubusercontent.com/84169773/141934160-7320a3e1-a27d-4201-8c26-2bafc5aa526d.png" alt="image" style="zoom:33%;" />
+
+> 전체보기 - 라이트급 - 미들급 - 헤비급
 
 ## 🤼‍♂️ 후기
 
 ### 💬 Seung's 숙제
 
-* **👀 하단에 뜨는 null을 고쳐야 합니다.**
+* **👀 하단에 뜨는 null을 고쳐야 합니다. - 2021/11/16 해결 완료! **
 * **git & github을 조금 더 연마해야 합니다.**
 * **추가하고 싶은 기능이 많았지만 추가하지 못한 기능들이 많습니다. (ex 사람들이 좋아하는 운동부위 Ranking, 기록 추가시 종목 입력이 아닌 리스트식으로 처리 등)**
 * **사소한 부분이라도 추가된 것이 있다면 지체없이 말해주어야 후에 쓸데없는 Conflict가 안난다는 것을 가슴에 새겨야 합니다.**
