@@ -4,7 +4,7 @@ public class User_DTO {
 	private String id = null; // 회원 아이디
 	private String name = null; // 회원 이름
 	private int height = 0;
-	private int weight = 0;
+	private String weight = null;
 
 	public String getId() {
 		return id;
@@ -30,11 +30,11 @@ public class User_DTO {
 		this.height = height;
 	}
 
-	public int getWeight() {
+	public String getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 	/**

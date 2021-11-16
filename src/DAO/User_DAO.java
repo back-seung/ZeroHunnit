@@ -103,7 +103,7 @@ public class User_DAO {
 		return null;
 	}
 
-	// 랭킹
+	// 전체 랭킹
 	public ArrayList<Info_DTO> rank() {
 		String sql = "select c_name, sum(liftweight) from info group by c_name order by sum(liftweight) desc";
 		ResultSet rs = null;
@@ -131,4 +131,34 @@ public class User_DAO {
 		}
 		return null;
 	}
+	
+	// 체급별 랭킹
+		public ArrayList<Info_DTO> wRank(String wgt) {
+			String sql = "select c_name, sum(liftweight) from (select customer.name as c_name, info.liftweight as liftweight from info join customer on c_name=name and customer.weight=?) group by c_name order by sum(liftweight) desc";
+			ResultSet rs = null;
+			Info_DTO returnDTO = null;
+			ArrayList<Info_DTO> tlist = new ArrayList<>();
+			try {
+				getConnection();
+				PreparedStatement psmt = conn.prepareStatement(sql);
+				psmt.setString(1, wgt);
+				rs = psmt.executeQuery();
+				while (rs.next()) {
+					returnDTO = new Info_DTO();
+					returnDTO.setC_name(rs.getString("c_name"));
+					returnDTO.setLiftWeight(rs.getInt("sum(liftweight)"));
+					tlist.add(returnDTO);
+				}
+				return tlist;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
 }
